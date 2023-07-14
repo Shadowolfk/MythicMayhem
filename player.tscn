@@ -1,0 +1,209 @@
+[gd_scene load_steps=9 format=3 uid="uid://bt0fghoxxmtir"]
+
+[ext_resource type="PackedScene" uid="uid://bqar0uv32gj8e" path="res://Base.glb" id="1_2ooo8"]
+[ext_resource type="Script" path="res://midas.gd" id="2_j4acd"]
+[ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://R.png" id="3_dxgs6"]
+[ext_resource type="PackedScene" uid="uid://eh3elrkgya1w" path="res://dashparticle.tscn" id="4_khrw0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yo0ae"]
+radius = 0.75
+height = 4.5
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vhgsf"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath("Camera3D:rotation")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath("AnimationPlayer:current_animation")
+properties/3/spawn = true
+properties/3/sync = true
+properties/4/path = NodePath("CPUParticles3D:emitting")
+properties/4/spawn = true
+properties/4/sync = true
+properties/5/path = NodePath("CPUParticles3D:mesh")
+properties/5/spawn = true
+properties/5/sync = true
+properties/6/path = NodePath("CPUParticles3D:visible")
+properties/6/spawn = true
+properties/6/sync = true
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_hgui6"]
+albedo_color = Color(1, 0.843137, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pj063"]
+material = SubResource("ORMMaterial3D_hgui6")
+top_radius = 0.02
+bottom_radius = 0.02
+
+[node name="Base" instance=ExtResource("1_2ooo8")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+collision_layer = 2
+script = ExtResource("2_j4acd")
+
+[node name="Armature" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.989, 0)
+
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/7/rotation = Quaternion(0.0693733, 0.50028, -0.85161, 0.140239)
+bones/8/rotation = Quaternion(-0.615366, -0.202901, -0.039296, 0.760665)
+bones/9/rotation = Quaternion(-0.225317, -0.0893793, -0.0756838, 0.96722)
+bones/15/rotation = Quaternion(0.0954844, -0.504888, 0.846725, 0.137944)
+bones/16/rotation = Quaternion(-0.804507, 0.1117, 0.17993, 0.554902)
+bones/17/rotation = Quaternion(-0.0282209, 0.062988, 0.155517, 0.985419)
+bones/25/rotation = Quaternion(0.00964594, -0.0310602, 0.994152, 0.102974)
+bones/32/rotation = Quaternion(0.0137128, -0.20091, -0.976042, 0.0823928)
+
+[node name="Cube" parent="Armature/Skeleton3D" index="0"]
+transform = Transform3D(0.224447, 1.86262e-09, -2.27097e-10, -1.62983e-09, 0.383041, 2.68585e-12, 1.74524e-10, -3.54561e-12, 0.292078, 0.0209162, 2.31169, 0.208195)
+bone_idx = 5
+
+[node name="Cube001" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(-0.175167, -3.69294e-10, -1.65155e-09, 1.86265e-09, -0.273078, -0.072598, 1.46287e-09, 0.131425, -0.150845, 0.0188094, 1.95415, 0.387071)
+bone_idx = 6
+
+[node name="Cube018" parent="Armature/Skeleton3D" index="2"]
+transform = Transform3D(-0.117241, -0.099933, -0.176595, 0.116598, -0.126821, 0.0437207, -0.0809108, -0.0379531, 0.318894, 0.572166, 1.92456, -1.04278)
+bone_idx = 10
+
+[node name="Cube018" parent="Armature/Skeleton3D/Cube018" index="0"]
+transform = Transform3D(1, -7.45058e-09, -5.96046e-08, 3.72529e-09, 1, 0, 1.49012e-08, -7.45058e-09, 1, 0, 0, 0)
+
+[node name="Cube019" parent="Armature/Skeleton3D" index="3"]
+transform = Transform3D(-0.105711, 0.104828, 0.0894161, -0.0738623, -0.246869, -0.0921886, -0.024256, 0.294884, -0.108964, 0.752232, 1.47546, -0.739982)
+bone_idx = 11
+
+[node name="Cube020" parent="Armature/Skeleton3D" index="4"]
+transform = Transform3D(0.190407, -0.11948, -0.140824, 0.184681, 0.123185, 0.14519, 8.13316e-10, -0.202266, 0.171611, 0.876982, 1.19114, -0.409873)
+bone_idx = 12
+
+[node name="Cube021" parent="Armature/Skeleton3D" index="5"]
+transform = Transform3D(-0.153621, -0.0936466, -2.29789e-08, -0.025074, 0.137651, -0.155113, -0.0446298, 0.245008, 0.0871463, 0.731329, 1.33523, -0.0314979)
+bone_idx = 13
+
+[node name="Cube022" parent="Armature/Skeleton3D" index="6"]
+transform = Transform3D(0.403024, 1.11758e-07, 5.21773e-08, -9.46843e-08, -0.197406, 0.351367, -8.79274e-08, -0.351367, -0.197406, 0.575741, 1.54602, 0.360604)
+bone_idx = 14
+
+[node name="Cube017" parent="Armature/Skeleton3D" index="7"]
+transform = Transform3D(0.143764, 0.0966484, 0.0825463, 0.108801, -0.133663, 0.0130558, -0.0371681, -0.0174345, 0.357501, -0.278992, 2.14409, -0.497041)
+bone_idx = 18
+
+[node name="Cube015" parent="Armature/Skeleton3D" index="8"]
+transform = Transform3D(-0.185225, 0.184892, 0.0432222, 0.189878, 0.180362, 0.0421628, -2.16894e-07, -0.0603808, 0.258294, -0.785575, 1.26309, -0.350531)
+bone_idx = 19
+
+[node name="Cube016" parent="Armature/Skeleton3D" index="9"]
+transform = Transform3D(0.111069, -0.202081, -0.027444, -0.0695, -0.332121, -0.0267713, -0.00724086, 0.0880295, -0.164004, -0.553265, 1.64115, -0.442607)
+bone_idx = 20
+
+[node name="Cube013" parent="Armature/Skeleton3D" index="10"]
+transform = Transform3D(-0.403024, -3.8743e-07, -1.37879e-07, -3.15123e-07, -0.190204, 0.355318, -3.07183e-07, -0.355318, -0.190204, -0.54145, 1.54403, 0.396829)
+bone_idx = 21
+
+[node name="Cube014" parent="Armature/Skeleton3D" index="11"]
+transform = Transform3D(0.153621, 0.0936467, 5.98195e-08, -0.0241591, 0.132629, -0.156857, -0.0451316, 0.247763, 0.0839667, -0.697038, 1.34128, 0.000511318)
+bone_idx = 22
+
+[node name="Cube002" parent="Armature/Skeleton3D" index="12"]
+transform = Transform3D(0.42124, -9.31348e-10, -7.23546e-10, -1.86267e-09, 0.537007, 4.1922e-13, 6.43695e-10, -4.76064e-13, 0.473518, 0.00969361, 1.34069, 0.372487)
+bone_idx = 23
+
+[node name="Cube003" parent="Armature/Skeleton3D" index="13"]
+transform = Transform3D(-0.405968, -1.39697e-09, 1.42123e-10, 2.56115e-09, -0.405968, -3.77298e-12, -1.4213e-10, 3.77298e-12, -0.405968, 0.0142518, 0.825681, 0.361548)
+bone_idx = 24
+
+[node name="Cube008" parent="Armature/Skeleton3D" index="14"]
+transform = Transform3D(0.529445, 0.0748884, -0.0230794, -0.0783642, 0.505961, -0.15593, -6.12345e-08, 0.15763, 0.511474, -0.51081, -2.47322, -0.438793)
+bone_idx = 28
+
+[node name="Cube006" parent="Armature/Skeleton3D" index="15"]
+transform = Transform3D(-0.324383, -0.0458826, 0.0141402, 0.0480122, -0.309995, 0.0955361, 7.85221e-08, -0.0965777, -0.313372, -0.481802, -0.887367, 0.163103)
+bone_idx = 29
+
+[node name="Cube007" parent="Armature/Skeleton3D" index="16"]
+transform = Transform3D(0.243357, 0.104824, -0.00287101, -0.0360196, 0.708217, -0.0193981, -5.1441e-08, 0.0502677, 0.279286, -0.774653, -1.83409, -0.222886)
+bone_idx = 30
+
+[node name="Cube005" parent="Armature/Skeleton3D" index="17"]
+transform = Transform3D(0.243357, 0.104824, -0.002871, -0.0360195, 0.708217, -0.0193982, -6.0536e-08, 0.0502678, 0.279286, -0.401316, -0.538122, 0.189054)
+bone_idx = 31
+
+[node name="Cube009" parent="Armature/Skeleton3D" index="18"]
+transform = Transform3D(-0.533482, -0.0420813, -0.008874, -0.0429602, 0.526575, 0.0855882, -0.00200134, -0.0860233, 0.52825, 0.340084, -2.54256, 0.809028)
+bone_idx = 35
+
+[node name="Cube010" parent="Armature/Skeleton3D" index="19"]
+transform = Transform3D(-0.245213, -0.0522581, -0.00951494, -0.0197464, 0.661666, 0.106094, -0.000919954, -0.273045, 0.258918, 0.64339, -1.88837, 0.740047)
+bone_idx = 36
+
+[node name="Cube011" parent="Armature/Skeleton3D" index="20"]
+transform = Transform3D(0.326856, 0.0257825, 0.00543702, 0.026321, -0.322625, -0.0524386, 0.00122626, 0.0527052, -0.323651, 0.408938, -0.854938, 0.650148)
+bone_idx = 37
+
+[node name="Cube012" parent="Armature/Skeleton3D" index="21"]
+transform = Transform3D(-0.245213, -0.052258, -0.00951495, -0.0197464, 0.661666, 0.106094, -0.000919967, -0.273045, 0.258918, 0.354435, -0.526654, 0.514565)
+bone_idx = 38
+
+[node name="Cube004" parent="Armature/Skeleton3D" index="22"]
+transform = Transform3D(0.421241, -4.04124e-15, -4.84857e-10, -4.06134e-15, 0.425286, 1.28324e-11, 4.31326e-10, -1.15357e-11, 0.473518, 0.00969382, 0.290616, 0.372487)
+bone_idx = 39
+
+[node name="AnimationPlayer" parent="." index="1"]
+speed_scale = 2.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 2.8732, 0.40153)
+shape = SubResource("CapsuleShape3D_yo0ae")
+
+[node name="Camera3D" type="Camera3D" parent="." index="3"]
+transform = Transform3D(2, 0, 0, 0, 1.9957, 0.131085, 0, -0.131085, 1.9957, 0, 4.9505, -0.216233)
+
+[node name="TextureRect" type="TextureRect" parent="Camera3D" index="0"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 1997.0
+offset_bottom = 1997.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.003, 0.003)
+texture = ExtResource("3_dxgs6")
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D" index="1"]
+target_position = Vector3(0, 0, -2)
+collision_mask = 2
+
+[node name="Grapcast" type="RayCast3D" parent="Camera3D" index="2"]
+target_position = Vector3(0, 0, -20)
+
+[node name="ClickTimer" type="Timer" parent="." index="4"]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="5"]
+replication_config = SubResource("SceneReplicationConfig_vhgsf")
+
+[node name="Hitdelaytimer" type="Timer" parent="." index="6"]
+wait_time = 0.5
+one_shot = true
+
+[node name="GrapTimer" type="Timer" parent="." index="7"]
+wait_time = 5.0
+
+[node name="CPUParticles3D" parent="." index="8" instance=ExtResource("4_khrw0")]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 4, 4.13684)
+visible = false
+mesh = SubResource("CylinderMesh_pj063")
+emission_box_extents = Vector3(1, 3, 1)
+gravity = Vector3(0, 0, 0)
+
+[connection signal="timeout" from="ClickTimer" to="." method="_on_click_timer_timeout"]
+[connection signal="timeout" from="Hitdelaytimer" to="." method="_on_hitdelaytimer_timeout"]
+[connection signal="timeout" from="GrapTimer" to="." method="_on_grap_timer_timeout"]

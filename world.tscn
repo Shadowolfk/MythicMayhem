@@ -1,0 +1,201 @@
+[gd_scene load_steps=8 format=3 uid="uid://pl8l8ew32h36"]
+
+[ext_resource type="PackedScene" uid="uid://chjbdvw3iqw15" path="res://environment.tscn" id="1_h16r2"]
+
+[sub_resource type="GDScript" id="GDScript_b0ovg"]
+resource_name = "world"
+script/source = "extends Node
+
+@onready var MainMenu = $CanvasLayer/MainMenu
+@onready var AddressEntry = $CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressEntry
+@onready var HUD = $CanvasLayer/HUD
+@onready var healthbar = $CanvasLayer/HUD/HealthBar
+
+
+const player = preload(\"res://player.tscn\")
+const PORT = 4744
+var enetpeer = ENetMultiplayerPeer.new()
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _unhandled_input(event):
+	if Input.is_action_just_pressed(\"quit\"):
+		get_tree().quit()
+		
+
+
+func _on_host_button_pressed():
+	MainMenu.hide()
+	HUD.show()
+	enetpeer.create_server(PORT)
+	multiplayer.multiplayer_peer = enetpeer
+	add_player(multiplayer.get_unique_id())
+	multiplayer.peer_connected.connect(add_player)
+	multiplayer.peer_disconnected.connect(remove_player)
+	#upnp_setup()
+
+func _on_join_button_pressed():
+	MainMenu.hide()
+	HUD.show()
+	enetpeer.create_client(\"localhost\", PORT)
+	multiplayer.multiplayer_peer = enetpeer
+	pass # Replace with function body.
+
+
+func add_player(peer_id):
+	var player = player.instantiate()
+	player.name = str(peer_id)
+	add_child(player)
+	if player.is_multiplayer_authority():
+		player.hpchange.connect(update_hpbar)
+		
+		
+func remove_player(peer_id):
+	var player = get_node_or_null(str(peer_id))
+	if player:
+		player.queue_free()
+
+
+
+func update_hpbar(hpvalue):
+	healthbar.value = hpvalue
+
+func _on_multiplayer_spawner_spawned(node):
+	if node.is_multiplayer_authority():
+		node.hpchange.connect(update_hpbar)
+		
+		
+		
+#func upnp_setup():
+	#var upnp = UPNP.new()
+	
+	#var discover_result = upnp.discover()
+	#assert(discover_result == UPNP.UPNP_RESULT_SUCCESS, \\
+		#\"UPNP Discover Failed! Error %s\" % discover_result)
+
+	#assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(), \\
+		#\"UPNP Invalid Gateway!\")
+
+	#var map_result = upnp.add_port_mapping(PORT)
+	#assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \\
+		#\"UPNP Port Mapping Failed! Error %s\" % map_result)
+	
+	#print(\"Success! Join Address: %s\" % upnp.query_external_address())
+"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mi5lv"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_glx5w"]
+sky_material = SubResource("ProceduralSkyMaterial_mi5lv")
+
+[sub_resource type="Environment" id="Environment_nmnyj"]
+background_mode = 2
+sky = SubResource("Sky_glx5w")
+tonemap_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ka20"]
+bg_color = Color(1, 0.34902, 0.235294, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v55ph"]
+bg_color = Color(0, 0.72549, 0.168627, 1)
+
+[node name="World" type="Node"]
+script = SubResource("GDScript_b0ovg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nmnyj")
+
+[node name="Environment" parent="." instance=ExtResource("1_h16r2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -129.0
+offset_top = -97.0
+offset_right = 129.0
+offset_bottom = 97.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+
+[node name="HostButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="AddressEntry" type="LineEdit" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Address To Join Here"
+alignment = 1
+expand_to_text_length = true
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 206.0
+offset_top = 22.0
+offset_right = -206.0
+offset_bottom = -598.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_8ka20")
+theme_override_styles/fill = SubResource("StyleBoxFlat_v55ph")
+max_value = 3.0
+value = 3.0
+show_percentage = false
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://player.tscn")
+spawn_path = NodePath("..")
+
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

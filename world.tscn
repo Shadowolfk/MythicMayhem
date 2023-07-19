@@ -10,11 +10,15 @@ script/source = "extends Node
 @onready var AddressEntry = $CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressEntry
 @onready var HUD = $CanvasLayer/HUD
 @onready var healthbar = $CanvasLayer/HUD/HealthBar
-
-
-const player = preload(\"res://player.tscn\")
+var char = 1
+const daed = preload(\"res://daed.tscn\")
+const midas = preload(\"res://player.tscn\")
 const PORT = 4744
 var enetpeer = ENetMultiplayerPeer.new()
+
+
+
+
 
 
 
@@ -22,35 +26,48 @@ var enetpeer = ENetMultiplayerPeer.new()
 func _unhandled_input(event):
 	if Input.is_action_just_pressed(\"quit\"):
 		get_tree().quit()
-		
+	
 
 
 func _on_host_button_pressed():
 	MainMenu.hide()
-	HUD.show()
+
 	enetpeer.create_server(PORT)
 	multiplayer.multiplayer_peer = enetpeer
 	add_player(multiplayer.get_unique_id())
+	char = 2
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
+	
 	#upnp_setup()
 
 func _on_join_button_pressed():
+	if char == 2:
+		print(\"dae\")
 	MainMenu.hide()
-	HUD.show()
+
 	enetpeer.create_client(\"localhost\", PORT)
 	multiplayer.multiplayer_peer = enetpeer
 	pass # Replace with function body.
 
 
+
 func add_player(peer_id):
-	var player = player.instantiate()
-	player.name = str(peer_id)
-	add_child(player)
-	if player.is_multiplayer_authority():
-		player.hpchange.connect(update_hpbar)
-		
-		
+	if char == 1:
+		print(\"Mid\")
+		var player = midas.instantiate()
+		player.name = str(peer_id)
+		add_child(player)
+
+	if char == 2:
+		print(\"dae\")
+		var player = daed.instantiate()
+		player.name = str(peer_id)
+		add_child(player)
+
+
+
+
 func remove_player(peer_id):
 	var player = get_node_or_null(str(peer_id))
 	if player:
@@ -58,12 +75,10 @@ func remove_player(peer_id):
 
 
 
-func update_hpbar(hpvalue):
-	healthbar.value = hpvalue
+
 
 func _on_multiplayer_spawner_spawned(node):
-	if node.is_multiplayer_authority():
-		node.hpchange.connect(update_hpbar)
+	pass
 		
 		
 		
@@ -82,6 +97,16 @@ func _on_multiplayer_spawner_spawned(node):
 		#\"UPNP Port Mapping Failed! Error %s\" % map_result)
 	
 	#print(\"Success! Join Address: %s\" % upnp.query_external_address())
+
+
+
+
+
+
+func _on_button_pressed():
+	char = 2
+
+	pass # Replace with function body.
 "
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mi5lv"]
@@ -96,11 +121,11 @@ background_mode = 2
 sky = SubResource("Sky_glx5w")
 tonemap_mode = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ka20"]
-bg_color = Color(1, 0.34902, 0.235294, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ervui"]
+bg_color = Color(1, 0.407843, 0.541176, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v55ph"]
-bg_color = Color(0, 0.72549, 0.168627, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y1ut6"]
+bg_color = Color(0.345098, 0.701961, 0, 1)
 
 [node name="World" type="Node"]
 script = SubResource("GDScript_b0ovg")
@@ -126,7 +151,7 @@ anchor_bottom = 0.5
 offset_left = -129.0
 offset_top = -97.0
 offset_right = 129.0
-offset_bottom = 97.0
+offset_bottom = 149.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -160,6 +185,10 @@ placeholder_text = "Enter Address To Join Here"
 alignment = 1
 expand_to_text_length = true
 
+[node name="Button" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Daed"
+
 [node name="HUD" type="Control" parent="CanvasLayer"]
 visible = false
 layout_mode = 3
@@ -176,26 +205,24 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 206.0
-offset_top = 22.0
-offset_right = -206.0
-offset_bottom = -598.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_8ka20")
-theme_override_styles/fill = SubResource("StyleBoxFlat_v55ph")
-max_value = 3.0
-value = 3.0
+layout_mode = 0
+offset_left = 331.0
+offset_top = 77.0
+offset_right = 833.0
+offset_bottom = 104.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/background = SubResource("StyleBoxFlat_ervui")
+theme_override_styles/fill = SubResource("StyleBoxFlat_y1ut6")
+max_value = 150.0
+step = 1.0
+value = 150.0
 show_percentage = false
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://player.tscn")
+_spawnable_scenes = PackedStringArray("res://daed.tscn", "res://player.tscn")
 spawn_path = NodePath("..")
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

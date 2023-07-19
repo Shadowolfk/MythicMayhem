@@ -1,22 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://bt0fghoxxmtir"]
+[gd_scene load_steps=11 format=3 uid="uid://b0ag80ulg6whg"]
 
-[ext_resource type="PackedScene" uid="uid://bqar0uv32gj8e" path="res://Base.glb" id="1_2ooo8"]
-[ext_resource type="Script" path="res://midas.gd" id="2_j4acd"]
-[ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://R.png" id="3_dxgs6"]
-[ext_resource type="PackedScene" uid="uid://eh3elrkgya1w" path="res://dashparticle.tscn" id="4_khrw0"]
+[ext_resource type="PackedScene" uid="uid://bqar0uv32gj8e" path="res://Base.glb" id="1_fefj1"]
+[ext_resource type="Script" path="res://daed.gd" id="2_f8cva"]
+[ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://R.png" id="3_b7u18"]
+[ext_resource type="PackedScene" uid="uid://eh3elrkgya1w" path="res://dashparticle.tscn" id="4_p4f2i"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yo0ae"]
 radius = 0.75
 height = 4.5
-
-[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_uwf5b"]
-albedo_color = Color(0.666667, 0.631373, 0, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_cu0wo"]
-material = SubResource("ORMMaterial3D_uwf5b")
-top_radius = 0.01
-bottom_radius = 0.01
-height = 20.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vhgsf"]
 properties/0/path = NodePath(".:position")
@@ -31,58 +22,34 @@ properties/2/sync = true
 properties/3/path = NodePath("AnimationPlayer:current_animation")
 properties/3/spawn = true
 properties/3/sync = true
-properties/4/path = NodePath("Camera3D/coinshot:mesh")
+properties/4/path = NodePath("CPUParticles3D:emitting")
 properties/4/spawn = true
 properties/4/sync = true
-properties/5/path = NodePath("Camera3D/coinshot:visible")
+properties/5/path = NodePath("CPUParticles3D:mesh")
 properties/5/spawn = true
 properties/5/sync = true
-properties/6/path = NodePath("grappart:emitting")
+properties/6/path = NodePath("CPUParticles3D:visible")
 properties/6/spawn = true
 properties/6/sync = true
-properties/7/path = NodePath("grappart:mesh")
-properties/7/spawn = true
-properties/7/sync = true
-properties/8/path = NodePath("grappart:visible")
-properties/8/spawn = true
-properties/8/sync = true
-properties/9/path = NodePath("dashpart:visible")
-properties/9/spawn = true
-properties/9/sync = true
-properties/10/path = NodePath("dashpart:emitting")
-properties/10/spawn = true
-properties/10/sync = true
-properties/11/path = NodePath("dashpart:mesh")
-properties/11/spawn = true
-properties/11/sync = true
 
-[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_uvcbh"]
-albedo_color = Color(0.788235, 0.788235, 0, 1)
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_hgui6"]
+albedo_color = Color(1, 0.843137, 0, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_pj063"]
-material = SubResource("ORMMaterial3D_uvcbh")
+material = SubResource("ORMMaterial3D_hgui6")
 top_radius = 0.02
 bottom_radius = 0.02
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_5lcsp"]
-top_radius = 0.02
-bottom_radius = 0.02
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8562d"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bsv7j"]
 bg_color = Color(1, 0.341176, 0.298039, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vlt2n"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tsrgk"]
 bg_color = Color(0.247059, 0.713726, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lc7li"]
-bg_color = Color(0.729412, 0.603922, 0.247059, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uur31"]
-
-[node name="Base" instance=ExtResource("1_2ooo8")]
+[node name="silly" instance=ExtResource("1_fefj1")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 collision_layer = 2
-script = ExtResource("2_j4acd")
+script = ExtResource("2_f8cva")
 
 [node name="Armature" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.989, 0)
@@ -215,25 +182,18 @@ offset_bottom = 1997.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.003, 0.003)
-texture = ExtResource("3_dxgs6")
+texture = ExtResource("3_b7u18")
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D" index="1"]
+visible = false
 target_position = Vector3(0, 0, -2)
 collision_mask = 2
 
 [node name="Grapcast" type="RayCast3D" parent="Camera3D" index="2"]
 target_position = Vector3(0, 0, -20)
 
-[node name="coincast" type="RayCast3D" parent="Camera3D" index="3"]
-target_position = Vector3(0, 0, -20)
-collision_mask = 2
-
-[node name="coinshot" type="MeshInstance3D" parent="Camera3D" index="4"]
-transform = Transform3D(0.999589, -0.0286132, -0.00153611, 0.00187808, 0.0119284, 0.999927, -0.0285928, -0.999519, 0.0119772, 0.190362, -0.130203, -10.336)
-visible = false
-mesh = SubResource("CylinderMesh_cu0wo")
-
 [node name="ClickTimer" type="Timer" parent="." index="4"]
+one_shot = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="5"]
 replication_config = SubResource("SceneReplicationConfig_vhgsf")
@@ -243,24 +203,17 @@ wait_time = 0.5
 one_shot = true
 
 [node name="GrapTimer" type="Timer" parent="." index="7"]
-wait_time = 10.0
+wait_time = 5.0
 one_shot = true
 
-[node name="grappart" parent="." index="8" instance=ExtResource("4_khrw0")]
+[node name="CPUParticles3D" parent="." index="8" instance=ExtResource("4_p4f2i")]
 transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 4, 4.13684)
 visible = false
 mesh = SubResource("CylinderMesh_pj063")
 emission_box_extents = Vector3(1, 3, 1)
 gravity = Vector3(0, 0, 0)
 
-[node name="dashpart" parent="." index="9" instance=ExtResource("4_khrw0")]
-transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 4, 4.13684)
-visible = false
-mesh = SubResource("CylinderMesh_5lcsp")
-emission_box_extents = Vector3(1, 3, 1)
-gravity = Vector3(0, 0, 0)
-
-[node name="Control" type="Control" parent="." index="10"]
+[node name="Control" type="Control" parent="." index="9"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -270,38 +223,13 @@ offset_bottom = 40.0
 layout_mode = 0
 offset_right = 1155.0
 offset_bottom = 27.0
-theme_override_styles/background = SubResource("StyleBoxFlat_8562d")
-theme_override_styles/fill = SubResource("StyleBoxFlat_vlt2n")
-max_value = 150.0
+theme_override_styles/background = SubResource("StyleBoxFlat_bsv7j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tsrgk")
+max_value = 60.0
 step = 1.0
-value = 150.0
+value = 60.0
 show_percentage = false
 
-[node name="GrapCooldownabar" type="ProgressBar" parent="Control" index="1"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 570.0
-offset_right = 451.0
-offset_bottom = 597.0
-tooltip_text = "Grappling Cooldown
-"
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_styles/background = SubResource("StyleBoxFlat_lc7li")
-theme_override_styles/fill = SubResource("StyleBoxFlat_uur31")
-max_value = 10.0
-step = 0.001
-show_percentage = false
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Control" index="2"]
-offset_left = 154.0
-offset_top = 571.0
-offset_right = 365.0
-offset_bottom = 611.0
-text = "Ultimate Cooldown"
-
-[connection signal="hpchange" from="." to="." method="_on_hpchange"]
 [connection signal="timeout" from="ClickTimer" to="." method="_on_click_timer_timeout"]
 [connection signal="timeout" from="Hitdelaytimer" to="." method="_on_hitdelaytimer_timeout"]
 [connection signal="timeout" from="GrapTimer" to="." method="_on_grap_timer_timeout"]

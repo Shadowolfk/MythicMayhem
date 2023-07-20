@@ -4,19 +4,19 @@ extends CharacterBody3D
 signal hpchange(hpvalue)
 @onready var player = $"."
 @onready var camera = $Camera3D
-var SPEED = 7.7
-var JUMP_VELOCITY = 15
+@export var SPEED = 7.7
+@export var JUMP_VELOCITY = 15
 var rp = true
 @onready var clicktimer = $ClickTimer
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = 20
+@export var gravity = 20
 var canclick = true
 var hp = 60
 var max_hp = 60
 @onready var ray = $Camera3D/RayCast3D
 @onready var hitdelaytimer = $Hitdelaytimer
 @onready var envir = "res://environment.tscn"
-@onready var gray = $Camera3D/Grapcast
+@onready var gray = $Camera3D/Camcast
 var collision_point = null
 var grappling
 var cangrapple = true
@@ -25,6 +25,9 @@ var hookpoint
 @onready var graptimer = $GrapTimer
 @onready var righthand = $Armature/Skeleton3D/Cube018/Cube018
 @onready var dashpart = $CPUParticles3D
+@onready var capsprite = $Camera3D/Camcast/Camsprite
+var direction = Vector3.ZERO
+@export var friction = 2
 
 
 func _enter_tree():
@@ -78,24 +81,19 @@ func _physics_process(delta):
 	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("Left", "Right", "Forward", "Backword")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var h_rot = global_transform.basis.get_euler().y
+	var f_input = Input.get_action_strength("Backword") - Input.get_action_strength("Forward")
+	var h_input = Input.get_action_strength("Right") - Input.get_action_strength("Left")
+	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
 	if direction:
-		if $AnimationPlayer.is_playing():
-			velocity.x = direction.x * SPEED
-			velocity.z = direction.z * SPEED
-		else:
-			velocity.x = direction.x * SPEED
-			velocity.z = direction.z * SPEED
+		if not $AnimationPlayer.is_playing():
 			$AnimationPlayer.play("Run")
 	else:
-		if $AnimationPlayer.is_playing():
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			velocity.z = move_toward(velocity.z, 0, SPEED)
-		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			velocity.z = move_toward(velocity.z, 0, SPEED)
+		if not $AnimationPlayer.is_playing():
 			$AnimationPlayer.play("Idle")
+	if is_on_floor():
+		velocity = velocity.lerp(direction * SPEED, friction * delta)
+	move_and_slide()
 	
 	
 	move_and_slide()

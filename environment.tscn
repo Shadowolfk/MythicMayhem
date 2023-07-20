@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://chjbdvw3iqw15"]
+[gd_scene load_steps=6 format=3 uid="uid://chjbdvw3iqw15"]
 
 [ext_resource type="ArrayMesh" uid="uid://c838guseotv17" path="res://world.obj" id="1_57vnm"]
 
@@ -8,6 +8,10 @@ data = PackedVector3Array(-22.8183, 1, -21.0133, 22.8183, 1, -21.0133, -22.8183,
 [sub_resource type="BoxMesh" id="BoxMesh_hsikw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5lxsr"]
+size = Vector3(5, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_eb3vw"]
+size = Vector3(5, 1, 1)
 
 [node name="Environment" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.388941, -1.90735e-06, -0.0333328)
@@ -27,4 +31,13 @@ mesh = SubResource("BoxMesh_hsikw")
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+shape = SubResource("BoxShape3D_5lxsr")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -15.6265, 2.16704, 0)
+mesh = SubResource("BoxMesh_eb3vw")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
 shape = SubResource("BoxShape3D_5lxsr")

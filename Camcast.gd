@@ -11,4 +11,7 @@ func _ready():
 func _input(event):
 	if not is_multiplayer_authority(): return
 	if Input.is_action_just_pressed("grap"):
-		camsprite.show()
+		if camsprite.is_visible_in_tree():
+			camsprite.hide()
+		else:
+			camsprite.show()

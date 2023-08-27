@@ -9,11 +9,12 @@ signal hpchange(hpvalue)
 var rp = true
 @onready var clicktimer = $ClickTimer
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-@export var gravity = 20
+@export var gravity = 15
 var canclick = true
 var hp = 150
 var max_hp = 150
 @onready var ray = $Camera3D/RayCast3D
+
 @onready var hitdelaytimer = $Hitdelaytimer
 @onready var envir = "res://environment.tscn"
 @onready var gray = $Camera3D/Grapcast
@@ -31,6 +32,12 @@ var candash = true
 var grapcd = 0
 var direction = Vector3.ZERO
 @export var friction = 2
+@onready var cdbar = $Control/GrapCooldownabar
+@onready var textlabel = $Control/RichTextLabel
+var canregen = true
+@onready var regenstar = $reganstart
+var supermaxhp = 150
+@onready var area = $Camera3D/Area3D
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -40,9 +47,10 @@ func _ready():
 	
 	if not is_multiplayer_authority(): return
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
+	cdbar.show()
+	textlabel.show()
 	camera.current = true
-
+	$Control/ProgressBar.show()
 
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
@@ -61,8 +69,8 @@ func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	# Add the gravity.
 	if not is_on_floor():
-		velocity.y -= gravity * delta * 2
-
+		velocity.y -= gravity * delta * 5
+		velocity = velocity.lerp(direction * SPEED, friction * delta)
 	# Handle Jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -137,10 +145,12 @@ func _physics_process(delta):
 
 	if Input.is_action_just_pressed("shift"):
 		if candash == true:
-			SPEED = 30
+			gravity = 0
+			SPEED = 60
 			dashpartic.visible = true
 			await get_tree().create_timer(.1).timeout
 			SPEED = 8.4
+			gravity = 20
 			dashpartic.visible = false
 			candash = false
 			await get_tree().create_timer(3).timeout
@@ -171,8 +181,31 @@ func _on_click_timer_timeout():
 
 
 
+@rpc("any_peer")
+func daehs():
+	hp -= 80
+	max_hp -= 80
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
+	
 
-
+@rpc("any_peer")
+func daebs():
+	hp -= 40
+	max_hp -= 40
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
+	
 @rpc("any_peer")
 func midaspunchdamage():
 	hp -= 150
@@ -181,17 +214,21 @@ func midaspunchdamage():
 	if hp <= 0:
 		die()
 	hpchange.emit(hp)
-
+	canregen = false
+	regenstar.start()
 
 @rpc("any_peer")
 func midasshotdamage():
 	hp -= 10
+	
 	print(hp)
+	
 	$Control/ProgressBar.value = hp
 	if hp <= 0:
 		die()
 	hpchange.emit(hp)
-
+	canregen = false
+	regenstar.start()
 
 
 func _on_hitdelaytimer_timeout():
@@ -209,6 +246,7 @@ func find_point():
 
 
 func die():
+	max_hp = supermaxhp
 	hp = max_hp
 	position = Vector3.ZERO
 	$Control/ProgressBar.value = hp
@@ -254,4 +292,35 @@ func line(pos1: Vector3, pos2: Vector3, color = Color.DARK_KHAKI) -> MeshInstanc
 
 func _on_hpchange(hpvalue):
 	$Control/ProgressBar.value = hpvalue
+	pass # Replace with function body.
+
+
+
+
+
+
+func _on_reganstart_timeout():
+	print("timeout")
+	$Hpregentimer.start()
+	canregen = true
+	
+	pass # Replace with function body.
+
+
+func _on_hpregentimer_timeout():
+	if canregen == true:
+		if not hp == max_hp:
+			hp += 50
+			$Control/ProgressBar.value = hp
+			print(hp)
+		else:
+			
+			return
+		if hp > max_hp:
+			hp = max_hp
+			$Control/ProgressBar.value = hp
+			print(hp)
+			$Hpregentimer.stop()
+	
+	
 	pass # Replace with function body.

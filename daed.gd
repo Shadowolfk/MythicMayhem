@@ -9,26 +9,35 @@ signal hpchange(hpvalue)
 var rp = true
 @onready var clicktimer = $ClickTimer
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-@export var gravity = 20
+@export var gravity = 15
+
 var canclick = true
 var hp = 60
 var max_hp = 60
-@onready var ray = $Camera3D/RayCast3D
+
 @onready var hitdelaytimer = $Hitdelaytimer
 @onready var envir = "res://environment.tscn"
 @onready var gray = $Camera3D/Camcast
 var collision_point = null
 var grappling
 var cangrapple = true
-
+@onready var cdbar = $Control/CamCooldownabar
 var hookpoint
-@onready var graptimer = $GrapTimer
+@onready var ultlabel = $Control/RichTextLabel
 @onready var righthand = $Armature/Skeleton3D/Cube018/Cube018
 @onready var dashpart = $CPUParticles3D
 @onready var capsprite = $Camera3D/Camcast/Camsprite
 var direction = Vector3.ZERO
 @export var friction = 2
-
+@onready var view = $Camera3D/Sprite3D
+@onready var snipe = $Camera3D/SnipeShot
+var isfloating = false
+@onready var ray = $Camera3D/SnipeCast
+@onready var jumptimer = $Juimer
+var canjump = true
+var canregen = true
+@onready var regenstar = $reganstart
+var supermaxhp = 60
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -37,9 +46,11 @@ func _enter_tree():
 func _ready():
 	if not is_multiplayer_authority(): return
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
+	cdbar.show()
+	ultlabel.show()
+	$Control/ProgressBar.show()
 	camera.current = true
-
+	
 
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
@@ -55,28 +66,70 @@ func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	# Add the gravity.
 	if not is_on_floor():
-		velocity.y -= gravity * delta * 2
+		
+		
+		if isfloating == true:
+			var vel_y = velocity.y - gravity * delta
+			velocity.y = vel_y
+			velocity = velocity.lerp(direction * SPEED, friction * delta)
+		else:
+			var vel_y= velocity.y - gravity * delta * 5
+			velocity.y = vel_y
+			velocity = velocity.lerp(direction * SPEED, friction * delta)
 
+			
 	# Handle Jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+
 		velocity.y = JUMP_VELOCITY
 	if Input.is_action_just_pressed("click"):
 		if canclick == true:
-			if rp ==true:
-				$AnimationPlayer.play("Punch1")
-				rp = false
-				canclick = false
-				clicktimer.start()
-				hitdelaytimer.start()
-			else:
-				$AnimationPlayer.play("Punch2")
-				rp = true
-				canclick = false
-				clicktimer.start()
-				hitdelaytimer.start()
+			if ray.is_colliding():
+				var shape_index = ray.get_collider_shape()
+				var collision_shape_name = ray.get_collider().shape_owner_get_owner(shape_index).name
+				var hit_player = ray.get_collider()
+				match collision_shape_name:
+					"body":
+						hit_player.daebs.rpc_id(hit_player.get_multiplayer_authority())
+
+						snipe.visible = true
+						canclick = false
+								
+						await get_tree().create_timer(.1).timeout
+						snipe.visible = false
+						clicktimer.start()
+					"head":
+						hit_player.daehs.rpc_id(hit_player.get_multiplayer_authority())
+
+						snipe.visible = true
+						canclick = false
+								
+						await get_tree().create_timer(.1).timeout
+						snipe.visible = false
+						clicktimer.start()
 				
 
+			else:
+
+				snipe.visible = true
+				await get_tree().create_timer(.1).timeout
+				snipe.visible = false
+				canclick = false
+				clicktimer.start()
 	
+	if Input.is_action_just_pressed("shift") and is_on_floor():
+		
+		if canjump == true:
+			velocity.y = JUMP_VELOCITY * 2
+			isfloating = true
+			canjump = false
+			jumptimer.start()
+
+		return
+		
+	if Input.is_action_just_pressed("shift") and not is_on_floor():
+		if isfloating == true:
+			isfloating = false
 
 	
 	# Get the input direction and handle the movement/deceleration.
@@ -91,12 +144,19 @@ func _physics_process(delta):
 	else:
 		if not $AnimationPlayer.is_playing():
 			$AnimationPlayer.play("Idle")
+	
+	
+
 	if is_on_floor():
 		velocity = velocity.lerp(direction * SPEED, friction * delta)
-	move_and_slide()
+
+	if is_on_floor() and velocity.y <= 0:
+		isfloating = false
+
 	
 	
 	move_and_slide()
+	
 
 
 func _on_click_timer_timeout():
@@ -104,6 +164,29 @@ func _on_click_timer_timeout():
 
 
 
+@rpc("any_peer")
+func daehs():
+	hp -= 80
+	max_hp -= 40
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
+
+@rpc("any_peer")
+func daebs():
+	hp -= 40
+	max_hp -= 40
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
 
 
 @rpc("any_peer")
@@ -114,6 +197,8 @@ func midaspunchdamage():
 	if hp <= 0:
 		die()
 	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
 
 @rpc("any_peer")
 func midasshotdamage():
@@ -123,14 +208,12 @@ func midasshotdamage():
 	if hp <= 0:
 		die()
 	hpchange.emit(hp)
-
-func _on_hitdelaytimer_timeout():
-	if ray.is_colliding():
-		var hit_player = ray.get_collider()
-
+	canregen = false
+	regenstar.start()
 
 
 func die():
+	max_hp = supermaxhp
 	hp = max_hp
 	position = Vector3.ZERO
 	$Control/ProgressBar.value = hp
@@ -141,3 +224,38 @@ func _on_hpchange(hpvalue):
 	pass # Replace with function body.
 
 
+
+
+
+
+
+func _on_juimer_timeout():
+
+	canjump = true
+	pass # Replace with function body.
+
+
+func _on_hpregentimer_timeout():
+	if canregen == true:
+		if not hp == max_hp:
+			hp += 20
+			$Control/ProgressBar.value = hp
+			print(hp)
+		else:
+			
+			return
+		if hp > max_hp:
+			hp = max_hp
+			$Control/ProgressBar.value = hp
+			print(hp)
+			$Hpregentimer.stop()
+	
+	
+	pass # Replace with function body.
+
+
+func _on_reganstart_timeout():
+	print("timeout")
+	$Hpregentimer.start()
+	canregen = true
+	pass # Replace with function body.

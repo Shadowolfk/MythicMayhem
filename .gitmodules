@@ -1,0 +1,3 @@
+[submodule "GodotLobbyTemplate"]
+	path = addons/lobby
+	url = https://github.com/Pspritechologist/GodotLobbyTemplate

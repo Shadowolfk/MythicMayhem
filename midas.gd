@@ -39,6 +39,7 @@ var canregen = true
 var supermaxhp = 150
 @onready var area = $Camera3D/Area3D
 
+
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
 
@@ -51,6 +52,9 @@ func _ready():
 	textlabel.show()
 	camera.current = true
 	$Control/ProgressBar.show()
+
+
+
 
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
@@ -230,6 +234,31 @@ func midasshotdamage():
 	canregen = false
 	regenstar.start()
 
+@rpc("any_peer")
+func herarrow():
+	
+	
+	
+	hp -= 25
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
+
+@rpc("any_peer")
+func herspear():
+	hp -= 50
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
+
 
 func _on_hitdelaytimer_timeout():
 	if ray.is_colliding():
@@ -250,7 +279,6 @@ func die():
 	hp = max_hp
 	position = Vector3.ZERO
 	$Control/ProgressBar.value = hp
-
 
 
 

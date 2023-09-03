@@ -19,7 +19,7 @@ var enetpeer = ENetMultiplayerPeer.new()
 var _player_chars
 var char_pressed
 var char_dict = {}
-
+const hera = preload(\"res://heracl.tscn\")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -32,37 +32,41 @@ func _unhandled_input(event):
 func _on_host_button_pressed():
 	MainMenu.hide()
 	charsel.hide()
-	enetpeer.create_server(PORT)
-	multiplayer.multiplayer_peer = enetpeer
-	add_player(multiplayer.get_unique_id())
-	multiplayer.peer_connected.connect(add_player)
-	multiplayer.peer_disconnected.connect(remove_player)
 	
-	upnp_setup()
+	Lobby.player_connected.connect(add_player)
+	Lobby.player_disconnected.connect(remove_player)
+	Lobby.create_game()
+
+
 
 func _on_join_button_pressed():
 	charsel.hide()
 	MainMenu.hide()
 
-	enetpeer.create_client(AddressEntry.text, PORT)
-	multiplayer.multiplayer_peer = enetpeer
+	Lobby.join_game()
+
 	pass # Replace with function body.
 
 
 
-func add_player(peer_id):
-	if char_dict[peer_id] == 1:
+func add_player(peer_id, client_info):
+	if Lobby.players[peer_id][\"char\"] == 1:
 		print(\"Mid\")
 		var player = midas.instantiate()
 		player.name = str(peer_id)
 		add_child(player)
 
-	if char_dict[peer_id] == 2:
+	if Lobby.players[peer_id][\"char\"] == 2:
 		print(\"dae\")
 		var player = daed.instantiate()
 		player.name = str(peer_id)
 		add_child(player)
-
+	
+	if Lobby.players[peer_id][\"char\"] == 3:
+		print(\"hera\")
+		var player = hera.instantiate()
+		player.name = str(peer_id)
+		add_child(player)
 
 
 
@@ -80,21 +84,6 @@ func _on_multiplayer_spawner_spawned(node):
 		
 		
 		
-func upnp_setup():
-	var upnp = UPNP.new()
-	
-	var discover_result = upnp.discover()
-	assert(discover_result == UPNP.UPNP_RESULT_SUCCESS, \\
-		\"UPNP Discover Failed! Error %s\" % discover_result)
-
-	assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(), \\
-		\"UPNP Invalid Gateway!\")
-
-	var map_result = upnp.add_port_mapping(PORT)
-	assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \\
-		\"UPNP Port Mapping Failed! Error %s\" % map_result)
-	
-	print(\"Success! Join Address: %s\" % upnp.query_external_address())
 
 
 
@@ -104,10 +93,7 @@ func upnp_setup():
 
 
 func _on_daedalus_pressed():
-	if multiplayer.is_server():
-		change_character(1, 2)
-	else:
-		change_character.rpc_id(1, multiplayer.get_client_id(), 2)
+	Lobby.client_info[\"char\"] = 2
 
 
 	
@@ -115,14 +101,19 @@ func _on_daedalus_pressed():
 
 
 func _on_midas_pressed():
-	if multiplayer.is_server():
-		change_character(1, 1)
-	else:
-		change_character.rpc_id(1, multiplayer.get_client_id(), 1)
+	Lobby.client_info[\"char\"] = 1
 
-@rpc(\"any_peer\", \"call_remote\", \"reliable\")
-func change_character(peer_id, char_pressed):
-	char_dict[peer_id] = char_pressed 
+
+
+func _on_address_entry_text_changed(new_text):
+	Lobby.address = new_text
+
+
+
+
+func _on_heracles_pressed():
+	Lobby.client_info[\"char\"] = 3
+	pass # Replace with function body.
 "
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mi5lv"]
@@ -166,7 +157,7 @@ anchor_bottom = 0.5
 offset_left = -129.0
 offset_top = -97.0
 offset_right = 129.0
-offset_bottom = 149.0
+offset_bottom = 97.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -238,7 +229,7 @@ anchor_bottom = 0.5
 offset_left = -494.0
 offset_top = -99.0
 offset_right = -236.0
-offset_bottom = 49.0
+offset_bottom = 86.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -266,12 +257,18 @@ text = "Daedalus"
 layout_mode = 2
 text = "Midas"
 
+[node name="Heracles" type="Button" parent="CanvasLayer/Charsel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Heracles"
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://daed.tscn", "res://player.tscn")
+_spawnable_scenes = PackedStringArray("res://daed.tscn", "res://player.tscn", "res://heracl.tscn", "res://herarrow.tscn")
 spawn_path = NodePath("..")
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="text_changed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/AddressEntry" to="." method="_on_address_entry_text_changed"]
 [connection signal="pressed" from="CanvasLayer/Charsel/MarginContainer/VBoxContainer/Daedalus" to="." method="_on_daedalus_pressed"]
 [connection signal="pressed" from="CanvasLayer/Charsel/MarginContainer/VBoxContainer/Midas" to="." method="_on_midas_pressed"]
+[connection signal="pressed" from="CanvasLayer/Charsel/MarginContainer/VBoxContainer/Heracles" to="." method="_on_heracles_pressed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

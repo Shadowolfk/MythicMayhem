@@ -1203,39 +1203,51 @@ height = 20.0
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
+properties/0/watch = false
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
+properties/1/watch = false
 properties/2/path = NodePath("Camera3D:rotation")
 properties/2/spawn = true
 properties/2/sync = true
+properties/2/watch = false
 properties/3/path = NodePath("AnimationPlayer:current_animation")
 properties/3/spawn = true
 properties/3/sync = true
+properties/3/watch = false
 properties/4/path = NodePath("Camera3D/coinshot:mesh")
 properties/4/spawn = true
 properties/4/sync = true
+properties/4/watch = false
 properties/5/path = NodePath("Camera3D/coinshot:visible")
 properties/5/spawn = true
 properties/5/sync = true
+properties/5/watch = false
 properties/6/path = NodePath("grappart:emitting")
 properties/6/spawn = true
 properties/6/sync = true
+properties/6/watch = false
 properties/7/path = NodePath("grappart:mesh")
 properties/7/spawn = true
 properties/7/sync = true
+properties/7/watch = false
 properties/8/path = NodePath("grappart:visible")
 properties/8/spawn = true
 properties/8/sync = true
+properties/8/watch = false
 properties/9/path = NodePath("dashpart:visible")
 properties/9/spawn = true
 properties/9/sync = true
+properties/9/watch = false
 properties/10/path = NodePath("dashpart:emitting")
 properties/10/spawn = true
 properties/10/sync = true
+properties/10/watch = false
 properties/11/path = NodePath("dashpart:mesh")
 properties/11/spawn = true
 properties/11/sync = true
+properties/11/watch = false
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_uvcbh"]
 albedo_color = Color(0.788235, 0.788235, 0, 1)
@@ -1797,7 +1809,7 @@ collision_mask = 2
 
 [node name="Grapcast" type="RayCast3D" parent="Camera3D"]
 visible = false
-target_position = Vector3(0, 0, -20)
+target_position = Vector3(0, 0, -100)
 
 [node name="coincast" type="RayCast3D" parent="Camera3D"]
 visible = false

@@ -212,6 +212,28 @@ func midasshotdamage():
 	regenstar.start()
 
 
+@rpc("any_peer")
+func herarrow():
+	hp -= 25
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
+
+@rpc("any_peer")
+func herspear():
+	hp -= 50
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
+
 func die():
 	max_hp = supermaxhp
 	hp = max_hp

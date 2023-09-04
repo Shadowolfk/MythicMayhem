@@ -1,8 +1,8 @@
 [gd_scene load_steps=94 format=3 uid="uid://b0ag80ulg6whg"]
 
-[ext_resource type="Animation" uid="uid://bhrol23n65cs2" path="res://run.res" id="2_66sr0"]
+[ext_resource type="Animation" uid="uid://bhrol23n65cs2" path="res://running.res" id="2_66sr0"]
 [ext_resource type="Script" path="res://daed.gd" id="2_f8cva"]
-[ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://r.png" id="3_b7u18"]
+[ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://red_circle.png" id="3_b7u18"]
 [ext_resource type="PackedScene" uid="uid://eh3elrkgya1w" path="res://dashparticle.tscn" id="4_p4f2i"]
 [ext_resource type="Script" path="res://Camcast.gd" id="4_vjhyx"]
 [ext_resource type="PackedScene" uid="uid://c8ff31t5waxas" path="res://camsprite.tscn" id="5_r11ad"]

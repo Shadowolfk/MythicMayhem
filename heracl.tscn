@@ -1,9 +1,9 @@
 [gd_scene load_steps=91 format=3 uid="uid://bcwo3a7njkgf2"]
 
-[ext_resource type="Animation" uid="uid://bhrol23n65cs2" path="res://run.res" id="1_7v3bv"]
+[ext_resource type="Animation" uid="uid://bhrol23n65cs2" path="res://running.res" id="1_7v3bv"]
 [ext_resource type="Script" path="res://heracl.gd" id="1_xfxda"]
 [ext_resource type="PackedScene" uid="uid://eh3elrkgya1w" path="res://dashparticle.tscn" id="2_wmae6"]
-[ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://r.png" id="3_ecaai"]
+[ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://red_circle.png" id="3_ecaai"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ot3bj"]
 

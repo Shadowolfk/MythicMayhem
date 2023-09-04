@@ -1,9 +1,9 @@
 [gd_scene load_steps=91 format=3 uid="uid://bcwo3a7njkgf2"]
 
-[ext_resource type="Animation" uid="uid://bhrol23n65cs2" path="res://Run.res" id="1_7v3bv"]
+[ext_resource type="Animation" uid="uid://bhrol23n65cs2" path="res://running.res" id="1_7v3bv"]
 [ext_resource type="Script" path="res://heracl.gd" id="1_xfxda"]
 [ext_resource type="PackedScene" uid="uid://eh3elrkgya1w" path="res://dashparticle.tscn" id="2_wmae6"]
-[ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://R.png" id="3_ecaai"]
+[ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://red_circle.png" id="3_ecaai"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ot3bj"]
 
@@ -700,7 +700,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_xmqy3")
 
 [sub_resource type="Animation" id="Animation_p2c58"]
-resource_name = "ArmatureAction"
+resource_name = "armature_action"
 length = 1.66667
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -795,7 +795,7 @@ tracks/12/loop_wrap = true
 tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.866363)
 
 [sub_resource type="Animation" id="Animation_0xqgt"]
-resource_name = "ArmatureAction003"
+resource_name = "armature_action003"
 length = 1.04167
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -890,7 +890,7 @@ tracks/12/loop_wrap = true
 tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.866363)
 
 [sub_resource type="Animation" id="Animation_ecbxx"]
-resource_name = "Idle"
+resource_name = "idling"
 length = 3.33333
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -985,7 +985,7 @@ tracks/12/loop_wrap = true
 tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.866363)
 
 [sub_resource type="Animation" id="Animation_bwef4"]
-resource_name = "Punch1"
+resource_name = "punching_1"
 length = 1.25
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -1080,7 +1080,7 @@ tracks/12/loop_wrap = true
 tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.866363)
 
 [sub_resource type="Animation" id="Animation_lmi8l"]
-resource_name = "Punch2"
+resource_name = "punching_2"
 length = 1.25
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -1176,12 +1176,12 @@ tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.86
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1nfol"]
 _data = {
-"ArmatureAction": SubResource("Animation_p2c58"),
-"ArmatureAction003": SubResource("Animation_0xqgt"),
-"Idle": SubResource("Animation_ecbxx"),
-"Punch1": SubResource("Animation_bwef4"),
-"Punch2": SubResource("Animation_lmi8l"),
-"Run": ExtResource("1_7v3bv")
+"armature_action": SubResource("Animation_p2c58"),
+"armature_action003": SubResource("Animation_0xqgt"),
+"idling": SubResource("Animation_ecbxx"),
+"punching_1": SubResource("Animation_bwef4"),
+"punching_2": SubResource("Animation_lmi8l"),
+"running": ExtResource("1_7v3bv")
 }
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_pqlpq"]

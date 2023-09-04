@@ -17,7 +17,7 @@ var max_hp = 60
 
 @onready var hitdelaytimer = $Hitdelaytimer
 @onready var envir = "res://environment.tscn"
-@onready var gray = $Camera3D/Camcast
+@onready var gray = $Camera3D/camera_cast
 var collision_point = null
 var grappling
 var cangrapple = true
@@ -26,7 +26,7 @@ var hookpoint
 @onready var ultlabel = $Control/RichTextLabel
 @onready var righthand = $Armature/Skeleton3D/Cube018/Cube018
 @onready var dashpart = $CPUParticles3D
-@onready var capsprite = $Camera3D/Camcast/Camsprite
+@onready var capsprite = $Camera3D/camera_cast/Camsprite
 var direction = Vector3.ZERO
 @export var friction = 2
 @onready var view = $Camera3D/Sprite3D
@@ -140,10 +140,10 @@ func _physics_process(delta):
 	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
 	if direction:
 		if not $AnimationPlayer.is_playing():
-			$AnimationPlayer.play("Run")
+			$AnimationPlayer.play("running")
 	else:
 		if not $AnimationPlayer.is_playing():
-			$AnimationPlayer.play("Idle")
+			$AnimationPlayer.play("idling")
 	
 	
 

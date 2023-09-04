@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bqar0uv32gj8e"
-path="res://.godot/imported/Base.glb-d5f7b6481e71f08b339b0cad3b3ea735.scn"
+path="res://.godot/imported/base_glb.glb-50390b2efb1492f7f42fdb3283462d4d.scn"
 
 [deps]
 
-source_file="res://Base.glb"
-dest_files=["res://.godot/imported/Base.glb-d5f7b6481e71f08b339b0cad3b3ea735.scn"]
+source_file="res://base_glb.glb"
+dest_files=["res://.godot/imported/base_glb.glb-50390b2efb1492f7f42fdb3283462d4d.scn"]
 
 [params]
 
@@ -30,10 +30,10 @@ animation/remove_immutable_tracks=true
 import_script/path=""
 _subresources={
 "animations": {
-"ArmatureAction": {
+"armature_action": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://ArmatureAction.res",
+"save_to_file/path": "res://armature_action.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -1829,10 +1829,10 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": null
 },
-"ArmatureAction003": {
+"armature_action003": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://ArmatureAction003.res",
+"save_to_file/path": "res://armature_action003.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -3628,10 +3628,10 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": null
 },
-"Idle": {
+"idling": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://Idle.res",
+"save_to_file/path": "res://idling.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -5427,10 +5427,10 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": null
 },
-"Punch1": {
+"punching_1": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://Punch1.res",
+"save_to_file/path": "res://punching_1.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -7226,10 +7226,10 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": null
 },
-"Punch2": {
+"punching_2": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://Punch2.res",
+"save_to_file/path": "res://punching_2.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -9025,10 +9025,10 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": null
 },
-"Run": {
+"running": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://Run.res",
+"save_to_file/path": "res://running.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,

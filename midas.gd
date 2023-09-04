@@ -81,13 +81,13 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("altclick"):
 		if canclick == true:
 			if rp ==true:
-				$AnimationPlayer.play("Punch1")
+				$AnimationPlayer.play("punching_1")
 				rp = false
 				canclick = false
 				clicktimer.start()
 				hitdelaytimer.start()
 			else:
-				$AnimationPlayer.play("Punch2")
+				$AnimationPlayer.play("punching_2")
 				rp = true
 				canclick = false
 				clicktimer.start()
@@ -171,10 +171,10 @@ func _physics_process(delta):
 	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
 	if direction:
 		if not $AnimationPlayer.is_playing():
-			$AnimationPlayer.play("Run")
+			$AnimationPlayer.play("running")
 	else:
 		if not $AnimationPlayer.is_playing():
-			$AnimationPlayer.play("Idle")
+			$AnimationPlayer.play("idling")
 	if is_on_floor():
 		velocity = velocity.lerp(direction * SPEED, friction * delta)
 	move_and_slide()

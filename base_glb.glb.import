@@ -30,10 +30,10 @@ animation/remove_immutable_tracks=true
 import_script/path=""
 _subresources={
 "animations": {
-"ArmatureAction": {
+"armature_action": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://ArmatureAction.res",
+"save_to_file/path": "res://armature_action.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -1829,10 +1829,10 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": null
 },
-"ArmatureAction003": {
+"armature_action003": {
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "res://ArmatureAction003.res",
+"save_to_file/path": "res://armature_action003.res",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,

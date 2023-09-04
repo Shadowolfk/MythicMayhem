@@ -702,7 +702,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_xmqy3")
 
 [sub_resource type="Animation" id="Animation_p2c58"]
-resource_name = "ArmatureAction"
+resource_name = "armature_action"
 length = 1.66667
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -797,7 +797,7 @@ tracks/12/loop_wrap = true
 tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.866363)
 
 [sub_resource type="Animation" id="Animation_0xqgt"]
-resource_name = "ArmatureAction003"
+resource_name = "armature_action003"
 length = 1.04167
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -1178,8 +1178,8 @@ tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.86
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1nfol"]
 _data = {
-"ArmatureAction": SubResource("Animation_p2c58"),
-"ArmatureAction003": SubResource("Animation_0xqgt"),
+"armature_action": SubResource("Animation_p2c58"),
+"armature_action003": SubResource("Animation_0xqgt"),
 "idling": SubResource("Animation_ecbxx"),
 "punching_1": SubResource("Animation_bwef4"),
 "punching_2": SubResource("Animation_lmi8l"),

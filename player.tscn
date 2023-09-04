@@ -890,7 +890,7 @@ tracks/12/loop_wrap = true
 tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.866363)
 
 [sub_resource type="Animation" id="Animation_ecbxx"]
-resource_name = "Idle"
+resource_name = "idling"
 length = 3.33333
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -985,7 +985,7 @@ tracks/12/loop_wrap = true
 tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.866363)
 
 [sub_resource type="Animation" id="Animation_bwef4"]
-resource_name = "Punch1"
+resource_name = "punching_1"
 length = 1.25
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -1080,7 +1080,7 @@ tracks/12/loop_wrap = true
 tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.866363)
 
 [sub_resource type="Animation" id="Animation_lmi8l"]
-resource_name = "Punch2"
+resource_name = "punching_2"
 length = 1.25
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
@@ -1178,10 +1178,10 @@ tracks/12/keys = PackedFloat32Array(0, 1, -0.498718, 0.0103435, -0.0242532, 0.86
 _data = {
 "ArmatureAction": SubResource("Animation_p2c58"),
 "ArmatureAction003": SubResource("Animation_0xqgt"),
-"Idle": SubResource("Animation_ecbxx"),
-"Punch1": SubResource("Animation_bwef4"),
-"Punch2": SubResource("Animation_lmi8l"),
-"Run": ExtResource("2_ewa2l")
+"idling": SubResource("Animation_ecbxx"),
+"punching_1": SubResource("Animation_bwef4"),
+"punching_2": SubResource("Animation_lmi8l"),
+"running": ExtResource("2_ewa2l")
 }
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yo0ae"]

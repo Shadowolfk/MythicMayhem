@@ -137,10 +137,10 @@ func _physics_process(delta):
 	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
 	if direction:
 		if not $AnimationPlayer.is_playing():
-			$AnimationPlayer.play("Run")
+			$AnimationPlayer.play("running")
 	else:
 		if not $AnimationPlayer.is_playing():
-			$AnimationPlayer.play("Idle")
+			$AnimationPlayer.play("idling")
 	
 	
 

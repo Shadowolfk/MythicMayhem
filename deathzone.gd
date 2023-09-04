@@ -13,9 +13,9 @@ func _process(delta):
 
 
 
-func _on_area_entered(area):
-	print("hit")
-	var dead_player = area.get_overlapping_areas()
-	dead_player.
-
-	pass # Replace with function body.
+#func _on_area_entered(area):
+#	print("hit")
+#	var dead_player = area.get_overlapping_areas()
+#	dead_player.
+#
+#	pass # Replace with function body.

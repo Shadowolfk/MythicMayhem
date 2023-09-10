@@ -5,6 +5,69 @@
 [ext_resource type="PackedScene" uid="uid://eh3elrkgya1w" path="res://dashparticle.tscn" id="2_wmae6"]
 [ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://red_circle.png" id="3_ecaai"]
 
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_pqlpq"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sjlsy"]
+material = SubResource("ORMMaterial3D_pqlpq")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 200.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vhgsf"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("Camera3D:rotation")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+properties/3/path = NodePath("AnimationPlayer:current_animation")
+properties/3/spawn = true
+properties/3/sync = true
+properties/3/watch = false
+properties/4/path = NodePath("CPUParticles3D:emitting")
+properties/4/spawn = true
+properties/4/sync = true
+properties/4/watch = false
+properties/5/path = NodePath("CPUParticles3D:mesh")
+properties/5/spawn = true
+properties/5/sync = true
+properties/5/watch = false
+properties/6/path = NodePath("CPUParticles3D:visible")
+properties/6/spawn = true
+properties/6/sync = true
+properties/6/watch = false
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_hgui6"]
+albedo_color = Color(0.458824, 0.960784, 0.819608, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pj063"]
+material = SubResource("ORMMaterial3D_hgui6")
+top_radius = 0.02
+bottom_radius = 0.02
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bsv7j"]
+bg_color = Color(1, 0.341176, 0.298039, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tsrgk"]
+bg_color = Color(0.247059, 0.713726, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwuql"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0p7ys"]
+bg_color = Color(0.729412, 0.603922, 0.247059, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_52u5b"]
+radius = 0.75
+height = 3.8
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uvx8f"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ot3bj"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_vqkks"]
@@ -19,7 +82,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_s2gyx"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_7x4vg"]
 resource_name = "Base_Cube001"
 _surfaces = [{
 "aabb": AABB(-1.27828, -1.01428, -1.27828, 2.55655, 1.90005, 2.38179),
@@ -49,7 +112,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_idcgd"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_6kunx"]
 resource_name = "Base_Cube002"
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 2, 2.00001),
@@ -79,7 +142,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_g3jk3"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_vsg7h"]
 resource_name = "Base_Cube020"
 _surfaces = [{
 "aabb": AABB(-1.10662, -0.485832, -0.755745, 2.24623, 1.28139, 1.16666),
@@ -109,7 +172,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_w3cj3"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_v2e5c"]
 resource_name = "Base_Cube021"
 _surfaces = [{
 "aabb": AABB(-1.60575, -1.09087, -1.11631, 2.26579, 2.09087, 2.25283),
@@ -139,7 +202,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_gqt3q"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_ik1qo"]
 resource_name = "Base_Mesh"
 _surfaces = [{
 "aabb": AABB(-0.839506, -0.839506, -0.839506, 1.67901, 1.67901, 1.67901),
@@ -169,7 +232,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_jg63e"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_via3h"]
 resource_name = "Base_Cube023"
 _surfaces = [{
 "aabb": AABB(-1.0651, -1, -1.35863, 2.0651, 2, 2.35863),
@@ -199,7 +262,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ivkj4"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_hpvti"]
 resource_name = "Base_Mesh2"
 _surfaces = [{
 "aabb": AABB(-0.839506, -0.839506, -0.839506, 1.67901, 1.67901, 1.67901),
@@ -229,7 +292,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_kt7kh"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_72wy8"]
 resource_name = "Base_Cube019"
 _surfaces = [{
 "aabb": AABB(-1.10662, -0.485832, -0.755745, 2.24623, 1.28139, 1.16666),
@@ -259,7 +322,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_geilp"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_wb6gj"]
 resource_name = "Base_Mesh3"
 _surfaces = [{
 "aabb": AABB(-0.839506, -0.839506, -0.839506, 1.67901, 1.67901, 1.67901),
@@ -289,7 +352,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_tfm1o"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_tbyqj"]
 resource_name = "Base_Cube018"
 _surfaces = [{
 "aabb": AABB(-1.60575, -1.09087, -1.11631, 2.26579, 2.09087, 2.25283),
@@ -319,7 +382,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_73g2y"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_8l2ah"]
 resource_name = "Base_Mesh4"
 _surfaces = [{
 "aabb": AABB(-0.839506, -0.839506, -0.839506, 1.67901, 1.67901, 1.67901),
@@ -349,7 +412,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_uj43f"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_7e7pe"]
 resource_name = "Base_Cube016"
 _surfaces = [{
 "aabb": AABB(-1.0651, -1, -1.35863, 2.0651, 2, 2.35863),
@@ -380,7 +443,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_54e5c"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_58bxb"]
 resource_name = "Base_Cube003"
 _surfaces = [{
 "aabb": AABB(-1.12523, -0.855719, -0.787609, 2.22541, 1.87038, 1.72106),
@@ -411,7 +474,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_rvgl2"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_8suh1"]
 resource_name = "Base_Mesh5"
 _surfaces = [{
 "aabb": AABB(-0.839506, -0.839506, -0.839506, 1.67901, 1.67901, 1.67901),
@@ -441,7 +504,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_1q2cf"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_jb7ne"]
 resource_name = "Base_Cube010"
 _surfaces = [{
 "aabb": AABB(-0.97683, -0.44255, -0.950951, 0.997193, 1.03789, 1.52178),
@@ -471,7 +534,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_06b76"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_01on6"]
 resource_name = "Base_Mesh6"
 _surfaces = [{
 "aabb": AABB(-0.839506, -0.839506, -0.839506, 1.67901, 1.67901, 1.67901),
@@ -501,7 +564,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_v1yk0"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_l3csw"]
 resource_name = "Base_Cube008"
 _surfaces = [{
 "aabb": AABB(-0.78386, -0.781624, -0.421749, 2.25505, 2.06499, 2.40646),
@@ -531,7 +594,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_87q7q"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_lb8tu"]
 resource_name = "Base_Cube006"
 _surfaces = [{
 "aabb": AABB(-1, -0.378301, -0.946285, 2.17785, 1.78025, 2.91199),
@@ -561,7 +624,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_0dhhl"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_1rdgf"]
 resource_name = "Base_Cube011"
 _surfaces = [{
 "aabb": AABB(-0.97683, -0.44255, -0.950951, 0.997193, 1.03789, 1.52178),
@@ -591,7 +654,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_yo243"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_yno1b"]
 resource_name = "Base_Cube012"
 _surfaces = [{
 "aabb": AABB(-0.78386, -0.781624, -0.421749, 2.25505, 2.06499, 2.40646),
@@ -621,7 +684,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_54tcp"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_fkgjl"]
 resource_name = "Base_Mesh7"
 _surfaces = [{
 "aabb": AABB(-0.839506, -0.839506, -0.839506, 1.67901, 1.67901, 1.67901),
@@ -651,7 +714,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_472hc"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_yp47e"]
 resource_name = "Base_Cube014"
 _surfaces = [{
 "aabb": AABB(-1, -0.378301, -0.946285, 2.17785, 1.78025, 2.91199),
@@ -682,7 +745,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_g2mbp"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_f1he7"]
 resource_name = "Base_Cube005"
 _surfaces = [{
 "aabb": AABB(-1.12523, -0.907159, -0.787609, 2.22541, 1.81894, 1.67486),
@@ -1184,73 +1247,125 @@ _data = {
 "running": ExtResource("1_7v3bv")
 }
 
-[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_pqlpq"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_sjlsy"]
-material = SubResource("ORMMaterial3D_pqlpq")
-top_radius = 0.01
-bottom_radius = 0.01
-height = 200.0
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vhgsf"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/sync = true
-properties/1/watch = false
-properties/2/path = NodePath("Camera3D:rotation")
-properties/2/spawn = true
-properties/2/sync = true
-properties/2/watch = false
-properties/3/path = NodePath("AnimationPlayer:current_animation")
-properties/3/spawn = true
-properties/3/sync = true
-properties/3/watch = false
-properties/4/path = NodePath("CPUParticles3D:emitting")
-properties/4/spawn = true
-properties/4/sync = true
-properties/4/watch = false
-properties/5/path = NodePath("CPUParticles3D:mesh")
-properties/5/spawn = true
-properties/5/sync = true
-properties/5/watch = false
-properties/6/path = NodePath("CPUParticles3D:visible")
-properties/6/spawn = true
-properties/6/sync = true
-properties/6/watch = false
-
-[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_hgui6"]
-albedo_color = Color(0.458824, 0.960784, 0.819608, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_pj063"]
-material = SubResource("ORMMaterial3D_hgui6")
-top_radius = 0.02
-bottom_radius = 0.02
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bsv7j"]
-bg_color = Color(1, 0.341176, 0.298039, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tsrgk"]
-bg_color = Color(0.247059, 0.713726, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwuql"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0p7ys"]
-bg_color = Color(0.729412, 0.603922, 0.247059, 1)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_52u5b"]
-radius = 0.75
-height = 3.8
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_uvx8f"]
-
 [node name="silly" type="CharacterBody3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 collision_layer = 2
 script = ExtResource("1_xfxda")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 1.9957, 0.131085, 0, -0.131085, 1.9957, 0, 4.9505, -0.216233)
+
+[node name="SnipeCast" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, -200)
+collision_mask = 2
+
+[node name="SnipeShot" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1.49012e-07, 1, 0, -1, -4.47035e-08, 0.3, 0, -100)
+visible = false
+mesh = SubResource("CylinderMesh_sjlsy")
+
+[node name="TextureRect" type="TextureRect" parent="Camera3D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 1997.0
+offset_bottom = 1997.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.003, 0.003)
+texture = ExtResource("3_ecaai")
+
+[node name="Speawn" type="Node3D" parent="Camera3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113e-08, 0, -0.0366223, -0.836832)
+
+[node name="arrowspawn" type="Node3D" parent="Camera3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113e-08, 0, 0.0166132, -1.64733)
+
+[node name="ClickTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_vhgsf")
+
+[node name="CamTimer" type="Timer" parent="."]
+wait_time = 60.0
+one_shot = true
+
+[node name="CPUParticles3D" parent="." instance=ExtResource("2_wmae6")]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 4, 4.13684)
+visible = false
+mesh = SubResource("CylinderMesh_pj063")
+emission_box_extents = Vector3(1, 3, 1)
+gravity = Vector3(0, 0, 0)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ProgressBar" type="ProgressBar" parent="Control"]
+visible = false
+layout_mode = 0
+offset_right = 1155.0
+offset_bottom = 27.0
+theme_override_styles/background = SubResource("StyleBoxFlat_bsv7j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tsrgk")
+step = 1.0
+value = 100.0
+show_percentage = false
+
+[node name="CamCooldownabar" type="ProgressBar" parent="Control"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 570.0
+offset_right = 451.0
+offset_bottom = 597.0
+tooltip_text = "Grappling Cooldown
+"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_styles/background = SubResource("StyleBoxFlat_uwuql")
+theme_override_styles/fill = SubResource("StyleBoxFlat_0p7ys")
+max_value = 75.0
+step = 0.001
+value = 75.0
+show_percentage = false
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 154.0
+offset_top = 571.0
+offset_right = 365.0
+offset_bottom = 611.0
+text = "Ultimate Cooldown"
+
+[node name="body" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 2.43797, 0.177199)
+shape = SubResource("CapsuleShape3D_52u5b")
+
+[node name="head" type="CollisionShape3D" parent="." groups=["head"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.40697, 0)
+shape = SubResource("BoxShape3D_uvx8f")
+
+[node name="Juimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="reganstart" type="Timer" parent="."]
+wait_time = 7.0
+one_shot = true
+
+[node name="Hpregentimer" type="Timer" parent="."]
+
+[node name="shottimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="Armature" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.989, 0)
@@ -1543,7 +1658,7 @@ bone_name = "Cube"
 bone_idx = 5
 
 [node name="Cube" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube"]
-mesh = SubResource("ArrayMesh_s2gyx")
+mesh = SubResource("ArrayMesh_7x4vg")
 skeleton = NodePath("")
 
 [node name="Cube001" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1552,7 +1667,7 @@ bone_name = "Cube.001"
 bone_idx = 6
 
 [node name="Cube001" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube001"]
-mesh = SubResource("ArrayMesh_idcgd")
+mesh = SubResource("ArrayMesh_6kunx")
 skeleton = NodePath("")
 
 [node name="Cube018" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1562,7 +1677,7 @@ bone_idx = 10
 
 [node name="Cube018" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube018"]
 transform = Transform3D(1, -7.45058e-09, -5.96046e-08, 3.72529e-09, 1, 0, 1.49012e-08, -7.45058e-09, 1, 0, 0, 0)
-mesh = SubResource("ArrayMesh_g3jk3")
+mesh = SubResource("ArrayMesh_vsg7h")
 skeleton = NodePath("")
 
 [node name="Cube019" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1571,7 +1686,7 @@ bone_name = "Cube.019"
 bone_idx = 11
 
 [node name="Cube019" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube019"]
-mesh = SubResource("ArrayMesh_w3cj3")
+mesh = SubResource("ArrayMesh_v2e5c")
 skeleton = NodePath("")
 
 [node name="Cube020" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1580,7 +1695,7 @@ bone_name = "Cube.020"
 bone_idx = 12
 
 [node name="Cube020" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube020"]
-mesh = SubResource("ArrayMesh_gqt3q")
+mesh = SubResource("ArrayMesh_ik1qo")
 skeleton = NodePath("")
 
 [node name="Cube021" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1589,7 +1704,7 @@ bone_name = "Cube.021"
 bone_idx = 13
 
 [node name="Cube021" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube021"]
-mesh = SubResource("ArrayMesh_jg63e")
+mesh = SubResource("ArrayMesh_via3h")
 skeleton = NodePath("")
 
 [node name="Cube022" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1598,7 +1713,7 @@ bone_name = "Cube.022"
 bone_idx = 14
 
 [node name="Cube022" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube022"]
-mesh = SubResource("ArrayMesh_ivkj4")
+mesh = SubResource("ArrayMesh_hpvti")
 skeleton = NodePath("")
 
 [node name="Cube017" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1607,7 +1722,7 @@ bone_name = "Cube.017"
 bone_idx = 18
 
 [node name="Cube017" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube017"]
-mesh = SubResource("ArrayMesh_kt7kh")
+mesh = SubResource("ArrayMesh_72wy8")
 skeleton = NodePath("")
 
 [node name="Cube015" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1616,7 +1731,7 @@ bone_name = "Cube.015"
 bone_idx = 19
 
 [node name="Cube015" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube015"]
-mesh = SubResource("ArrayMesh_geilp")
+mesh = SubResource("ArrayMesh_wb6gj")
 skeleton = NodePath("")
 
 [node name="Cube016" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1625,7 +1740,7 @@ bone_name = "Cube.016"
 bone_idx = 20
 
 [node name="Cube016" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube016"]
-mesh = SubResource("ArrayMesh_tfm1o")
+mesh = SubResource("ArrayMesh_tbyqj")
 skeleton = NodePath("")
 
 [node name="Cube013" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1634,7 +1749,7 @@ bone_name = "Cube.013"
 bone_idx = 21
 
 [node name="Cube013" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube013"]
-mesh = SubResource("ArrayMesh_73g2y")
+mesh = SubResource("ArrayMesh_8l2ah")
 skeleton = NodePath("")
 
 [node name="Cube014" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1643,7 +1758,7 @@ bone_name = "Cube.014"
 bone_idx = 22
 
 [node name="Cube014" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube014"]
-mesh = SubResource("ArrayMesh_uj43f")
+mesh = SubResource("ArrayMesh_7e7pe")
 skeleton = NodePath("")
 
 [node name="Cube002" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1652,7 +1767,7 @@ bone_name = "Cube.002"
 bone_idx = 23
 
 [node name="Cube002" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube002"]
-mesh = SubResource("ArrayMesh_54e5c")
+mesh = SubResource("ArrayMesh_58bxb")
 skeleton = NodePath("")
 
 [node name="Cube003" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1661,7 +1776,7 @@ bone_name = "Cube.003"
 bone_idx = 24
 
 [node name="Cube003" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube003"]
-mesh = SubResource("ArrayMesh_rvgl2")
+mesh = SubResource("ArrayMesh_8suh1")
 skeleton = NodePath("")
 
 [node name="Cube008" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1670,7 +1785,7 @@ bone_name = "Cube.008"
 bone_idx = 28
 
 [node name="Cube008" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube008"]
-mesh = SubResource("ArrayMesh_1q2cf")
+mesh = SubResource("ArrayMesh_jb7ne")
 skeleton = NodePath("")
 
 [node name="Cube006" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1679,7 +1794,7 @@ bone_name = "Cube.006"
 bone_idx = 29
 
 [node name="Cube006" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube006"]
-mesh = SubResource("ArrayMesh_06b76")
+mesh = SubResource("ArrayMesh_01on6")
 skeleton = NodePath("")
 
 [node name="Cube007" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1688,7 +1803,7 @@ bone_name = "Cube.007"
 bone_idx = 30
 
 [node name="Cube007" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube007"]
-mesh = SubResource("ArrayMesh_v1yk0")
+mesh = SubResource("ArrayMesh_l3csw")
 skeleton = NodePath("")
 
 [node name="Cube005" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1697,7 +1812,7 @@ bone_name = "Cube.005"
 bone_idx = 31
 
 [node name="Cube005" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube005"]
-mesh = SubResource("ArrayMesh_87q7q")
+mesh = SubResource("ArrayMesh_lb8tu")
 skeleton = NodePath("")
 
 [node name="Cube009" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1706,7 +1821,7 @@ bone_name = "Cube.009"
 bone_idx = 35
 
 [node name="Cube009" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube009"]
-mesh = SubResource("ArrayMesh_0dhhl")
+mesh = SubResource("ArrayMesh_1rdgf")
 skeleton = NodePath("")
 
 [node name="Cube010" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1715,7 +1830,7 @@ bone_name = "Cube.010"
 bone_idx = 36
 
 [node name="Cube010" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube010"]
-mesh = SubResource("ArrayMesh_yo243")
+mesh = SubResource("ArrayMesh_yno1b")
 skeleton = NodePath("")
 
 [node name="Cube011" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1724,7 +1839,7 @@ bone_name = "Cube.011"
 bone_idx = 37
 
 [node name="Cube011" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube011"]
-mesh = SubResource("ArrayMesh_54tcp")
+mesh = SubResource("ArrayMesh_fkgjl")
 skeleton = NodePath("")
 
 [node name="Cube012" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1733,7 +1848,7 @@ bone_name = "Cube.012"
 bone_idx = 38
 
 [node name="Cube012" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube012"]
-mesh = SubResource("ArrayMesh_472hc")
+mesh = SubResource("ArrayMesh_yp47e")
 skeleton = NodePath("")
 
 [node name="Cube004" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
@@ -1742,7 +1857,7 @@ bone_name = "Cube.004"
 bone_idx = 39
 
 [node name="Cube004" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube004"]
-mesh = SubResource("ArrayMesh_g2mbp")
+mesh = SubResource("ArrayMesh_f1he7")
 skeleton = NodePath("")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1750,121 +1865,6 @@ speed_scale = 2.0
 libraries = {
 "": SubResource("AnimationLibrary_1nfol")
 }
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 1.9957, 0.131085, 0, -0.131085, 1.9957, 0, 4.9505, -0.216233)
-
-[node name="SnipeCast" type="RayCast3D" parent="Camera3D"]
-target_position = Vector3(0, 0, -200)
-collision_mask = 2
-
-[node name="SnipeShot" type="MeshInstance3D" parent="Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1.49012e-07, 1, 0, -1, -4.47035e-08, 0.3, 0, -100)
-visible = false
-mesh = SubResource("CylinderMesh_sjlsy")
-
-[node name="TextureRect" type="TextureRect" parent="Camera3D"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 1997.0
-offset_bottom = 1997.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.003, 0.003)
-texture = ExtResource("3_ecaai")
-
-[node name="Speawn" type="Node3D" parent="Camera3D"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113e-08, 0, -0.0366223, -0.836832)
-
-[node name="arrowspawn" type="Node3D" parent="Camera3D"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113e-08, 0, 0.0166132, -1.64733)
-
-[node name="ClickTimer" type="Timer" parent="."]
-wait_time = 1.5
-one_shot = true
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_vhgsf")
-
-[node name="CamTimer" type="Timer" parent="."]
-wait_time = 60.0
-one_shot = true
-
-[node name="CPUParticles3D" parent="." instance=ExtResource("2_wmae6")]
-transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 4, 4.13684)
-visible = false
-mesh = SubResource("CylinderMesh_pj063")
-emission_box_extents = Vector3(1, 3, 1)
-gravity = Vector3(0, 0, 0)
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="ProgressBar" type="ProgressBar" parent="Control"]
-visible = false
-layout_mode = 0
-offset_right = 1155.0
-offset_bottom = 27.0
-theme_override_styles/background = SubResource("StyleBoxFlat_bsv7j")
-theme_override_styles/fill = SubResource("StyleBoxFlat_tsrgk")
-step = 1.0
-value = 100.0
-show_percentage = false
-
-[node name="CamCooldownabar" type="ProgressBar" parent="Control"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 570.0
-offset_right = 451.0
-offset_bottom = 597.0
-tooltip_text = "Grappling Cooldown
-"
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_styles/background = SubResource("StyleBoxFlat_uwuql")
-theme_override_styles/fill = SubResource("StyleBoxFlat_0p7ys")
-max_value = 75.0
-step = 0.001
-value = 75.0
-show_percentage = false
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
-visible = false
-layout_mode = 0
-offset_left = 154.0
-offset_top = 571.0
-offset_right = 365.0
-offset_bottom = 611.0
-text = "Ultimate Cooldown"
-
-[node name="body" type="CollisionShape3D" parent="."]
-transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 2.43797, 0.177199)
-shape = SubResource("CapsuleShape3D_52u5b")
-
-[node name="head" type="CollisionShape3D" parent="." groups=["head"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.40697, 0)
-shape = SubResource("BoxShape3D_uvx8f")
-
-[node name="Juimer" type="Timer" parent="."]
-wait_time = 3.0
-
-[node name="reganstart" type="Timer" parent="."]
-wait_time = 7.0
-one_shot = true
-
-[node name="Hpregentimer" type="Timer" parent="."]
-
-[node name="shottimer" type="Timer" parent="."]
-one_shot = true
 
 [connection signal="first_time" from="." to="." method="_on_first_time"]
 [connection signal="timeout" from="ClickTimer" to="." method="_on_click_timer_timeout" flags=18]

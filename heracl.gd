@@ -120,7 +120,7 @@ func _physics_process(delta):
 			dashpartic.visible = true
 			await get_tree().create_timer(.1).timeout
 			SPEED = 8.4
-			gravity = 20
+			gravity = 15
 			dashpartic.visible = false
 			candash = false
 			await get_tree().create_timer(3).timeout

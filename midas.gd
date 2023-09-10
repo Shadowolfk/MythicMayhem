@@ -13,8 +13,8 @@ var rp = true
 var canclick = true
 var hp = 150
 var max_hp = 150
-@onready var ray = $Camera3D/RayCast3D
-
+@onready var ray = $Camera3D/ShapeCast3D
+var dashes = 2
 @onready var hitdelaytimer = $Hitdelaytimer
 @onready var envir = "res://environment.tscn"
 @onready var gray = $Camera3D/Grapcast
@@ -24,7 +24,7 @@ var cangrapple = true
 @onready var coinshot = $Camera3D/coinshot
 var hookpoint
 @onready var graptimer = $GrapTimer
-@onready var righthand = $Armature/Skeleton3D/Cube018/Cube018
+@onready var righthand = $Armature/Skeleton3D/Sphere_008/rightHand
 @onready var grappart = $grappart
 @onready var coincast = $Camera3D/coincast
 var candash = true
@@ -37,7 +37,8 @@ var direction = Vector3.ZERO
 var canregen = true
 @onready var regenstar = $reganstart
 var supermaxhp = 150
-@onready var area = $Camera3D/Area3D
+
+var running = false
 
 
 func _enter_tree():
@@ -52,7 +53,7 @@ func _ready():
 	textlabel.show()
 	camera.current = true
 	$Control/ProgressBar.show()
-
+	$Control/ProgressBar2.show()
 
 
 
@@ -80,18 +81,14 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 	if Input.is_action_just_pressed("altclick"):
 		if canclick == true:
-			if rp ==true:
-				$AnimationPlayer.play("punching_1")
-				rp = false
-				canclick = false
-				clicktimer.start()
-				hitdelaytimer.start()
+			if running == false:
+				$Punchanim.play("Armature")
 			else:
-				$AnimationPlayer.play("punching_2")
-				rp = true
-				canclick = false
-				clicktimer.start()
-				hitdelaytimer.start()
+				$Punchanim.play("midarunpunchu")
+			canclick = false
+			clicktimer.start()
+			hitdelaytimer.start()
+			
 				
 	if Input.is_action_just_pressed("click"):
 		if canclick == true:
@@ -135,6 +132,9 @@ func _physics_process(delta):
 			move_and_slide()
 	
 	
+	if dashes == 0 and $Dashtimer.is_stopped():
+		$Dashtimer.start()
+	
 	if grappling == false:
 		hookpoint = false
 		collision_point = null
@@ -146,22 +146,22 @@ func _physics_process(delta):
 		if grapcd <= 0:
 			grapcd = 10
 
-
+	$Control/ProgressBar2.value = dashes
+	
 	if Input.is_action_just_pressed("shift"):
-		if candash == true:
+		if dashes > 0:
 			gravity = 0
 			SPEED = 60
 			dashpartic.visible = true
 			await get_tree().create_timer(.1).timeout
 			SPEED = 8.4
-			gravity = 20
+			gravity = 15
 			dashpartic.visible = false
-			candash = false
-			await get_tree().create_timer(3).timeout
-			candash = true
+			dashes -= 1
+			
 	
 	
-	
+
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 
@@ -171,10 +171,12 @@ func _physics_process(delta):
 	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
 	if direction:
 		if not $AnimationPlayer.is_playing():
-			$AnimationPlayer.play("running")
+			$AnimationPlayer.play("midarun")
+			running = true
 	else:
 		if not $AnimationPlayer.is_playing():
-			$AnimationPlayer.play("idling")
+			$AnimationPlayer.play("midle")
+			running = false
 	if is_on_floor():
 		velocity = velocity.lerp(direction * SPEED, friction * delta)
 	move_and_slide()
@@ -261,9 +263,11 @@ func herspear():
 
 
 func _on_hitdelaytimer_timeout():
+	ray.force_shapecast_update()
 	if ray.is_colliding():
-		var hit_player = ray.get_collider()
-		hit_player.midaspunchdamage.rpc_id(hit_player.get_multiplayer_authority())
+		var hit_player = ray.get_collider(1)
+		if hit_player != null:
+			hit_player.midaspunchdamage.rpc_id(hit_player.get_multiplayer_authority())
 
 
 func find_point():
@@ -351,4 +355,13 @@ func _on_hpregentimer_timeout():
 			$Hpregentimer.stop()
 	
 	
+	pass # Replace with function body.
+
+
+
+func _on_dashtimer_timeout():
+
+	if dashes != 2:
+		dashes +=1
+		
 	pass # Replace with function body.

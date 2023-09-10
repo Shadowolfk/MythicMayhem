@@ -1,7 +1,7 @@
 extends RigidBody3D
 var moving = true
 var ownerplayer = null
-var hera = preload("res://heracl.tscn")
+
 @onready var tppoint = $Node3D
 
 const  SPEED = 30

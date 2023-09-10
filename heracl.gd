@@ -91,9 +91,8 @@ func _physics_process(delta):
 		if shots > 0:
 			shoot_arrow()
 			shots -= 1
-		else:
-			
-			$shottimer.start()
+			if shots == 0:
+				$shottimer.start()
 		pass
 	if Input.is_action_just_pressed("altclick"):
 		if spear == true:

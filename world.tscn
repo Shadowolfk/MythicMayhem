@@ -50,6 +50,7 @@ func _on_join_button_pressed():
 
 
 func add_player(peer_id, client_info):
+
 	if Lobby.players[peer_id][\"char\"] == 1:
 		print(\"Mid\")
 		var player = midas.instantiate()
@@ -127,6 +128,7 @@ sky_material = SubResource("ProceduralSkyMaterial_mi5lv")
 background_mode = 2
 sky = SubResource("Sky_glx5w")
 tonemap_mode = 2
+volumetric_fog_density = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ervui"]
 bg_color = Color(1, 0.407843, 0.541176, 1)

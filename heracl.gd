@@ -47,8 +47,9 @@ var silly = false
 signal sperible
 var candash = true
 var damagecounter = 75
-
-
+var mat = load("res://mat.tres")
+var bloody = load("res://blood.tres")
+@export var tpartic : PackedScene
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -89,14 +90,14 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 	if Input.is_action_just_pressed("click"):
 		if shots > 0:
-			shoot_arrow()
+			shoot_arrow.rpc()
 			shots -= 1
 			if shots == 0:
 				$shottimer.start()
 		pass
 	if Input.is_action_just_pressed("altclick"):
 		if spear == true:
-			shoot_spear()
+			shoot_spear.rpc()
 			spear = false
 		else:
 			var distance = abs($".".global_position - s.global_position)
@@ -110,9 +111,12 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("grap"):
 		if damagecounter == 75:
 			if silly == true:
+				tparticles.rpc()
 				global_position = s.global_position
 				damagecounter -= 75
 				$Control/CamCooldownabar.value = damagecounter
+				
+				
 	if Input.is_action_just_pressed("shift"):
 		if candash == true:
 			gravity = 0
@@ -166,6 +170,7 @@ func daehs():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 @rpc("any_peer")
 func daebs():
@@ -178,6 +183,7 @@ func daebs():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 
 @rpc("any_peer")
@@ -190,6 +196,7 @@ func midaspunchdamage():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 @rpc("any_peer")
 func midasshotdamage():
@@ -201,6 +208,7 @@ func midasshotdamage():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 
 @rpc("any_peer")
@@ -213,6 +221,7 @@ func herarrow():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 
 @rpc("any_peer")
@@ -225,6 +234,7 @@ func herspear():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 func die():
 	max_hp = supermaxhp
@@ -234,13 +244,14 @@ func die():
 	s.hide()
 	spear = true
 	silly = false
+	
 
 func _on_hpchange(hpvalue):
 	$Control/ProgressBar.value = hpvalue
 	pass # Replace with function body.
 
 
-
+@rpc("call_local")
 func shoot_spear():
 	silly = true
 	s.global_transform = $Camera3D/Speawn.global_transform
@@ -251,7 +262,7 @@ func shoot_spear():
 		s.ownerplayer = self
 	s.show()
 
-
+@rpc("call_local")
 func shoot_arrow():
 	
 	var a = bullet.instantiate()
@@ -261,8 +272,68 @@ func shoot_arrow():
 	a.ownerplayer = self
 	pass
 		
-	
+		
+@rpc("authority", "call_local", "reliable")
+func blood():
+	$Armature/Skeleton3D/Cube/Cube.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube002/Cube002.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube018/Cube018.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube019/Cube019.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube020/Cube020.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube021/Cube021.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube022/Cube022.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube017/Cube017.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube016/Cube016.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube015/Cube015.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube013/Cube013.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube014/Cube014.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube002/Cube002.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube003/Cube003.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube008/Cube008.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube006/Cube006.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube007/Cube007.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube005/Cube005.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube009/Cube009.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube010/Cube010.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube011/Cube011.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube012/Cube012.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube004/Cube004.set_surface_override_material(0, bloody)
+	await get_tree().create_timer(.1).timeout
+	$Armature/Skeleton3D/Cube/Cube.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube002/Cube002.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube018/Cube018.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube019/Cube019.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube020/Cube020.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube021/Cube021.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube022/Cube022.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube017/Cube017.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube016/Cube016.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube015/Cube015.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube013/Cube013.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube014/Cube014.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube002/Cube002.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube003/Cube003.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube008/Cube008.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube006/Cube006.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube007/Cube007.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube005/Cube005.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube009/Cube009.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube010/Cube010.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube011/Cube011.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube012/Cube012.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube004/Cube004.set_surface_override_material(0, mat)
 
+
+@rpc("call_local")
+func tparticles():
+	var telepart = tpartic.instantiate()
+	telepart.global_transform = $partposition.global_transform
+	
+	telepart.scale = Vector3(.01,.01,.01)
+	
+	
+	telepart.emitting = true
+	add_child(telepart)
 
 func _on_hpregentimer_timeout():
 	if canregen == true:
@@ -300,7 +371,10 @@ func _on_first_time():
 	pass # Replace with function body.
 
 func notify_player1():
-	
+	$AudioStreamPlayer.play()
+	$Camera3D/hitdetect.visible = true
+	await get_tree().create_timer(.1).timeout
+	$Camera3D/hitdetect.visible = false
 	if not damagecounter == 75:
 		damagecounter += 50
 		if damagecounter > 75:
@@ -311,6 +385,10 @@ func notify_player1():
 			return
 		
 func notify_player2():
+	$AudioStreamPlayer.play()
+	$Camera3D/hitdetect.visible = true
+	await get_tree().create_timer(.1).timeout
+	$Camera3D/hitdetect.visible = false
 	if not damagecounter == 75:
 		damagecounter += 25
 		if damagecounter > 75:

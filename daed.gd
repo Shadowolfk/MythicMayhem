@@ -38,6 +38,11 @@ var canjump = true
 var canregen = true
 @onready var regenstar = $reganstart
 var supermaxhp = 60
+var mat = load("res://mat.tres")
+var bloody = load("res://blood.tres")
+@export var smoke : PackedScene
+
+
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -91,23 +96,27 @@ func _physics_process(delta):
 				match collision_shape_name:
 					"body":
 						hit_player.daebs.rpc_id(hit_player.get_multiplayer_authority())
-
+						$Camera3D/hitdetect.visible = true
+						$AudioStreamPlayer.play()
 						snipe.visible = true
 						canclick = false
 								
 						await get_tree().create_timer(.1).timeout
 						snipe.visible = false
+						$Camera3D/hitdetect.visible = false
 						clicktimer.start()
 					"head":
 						hit_player.daehs.rpc_id(hit_player.get_multiplayer_authority())
 
 						snipe.visible = true
 						canclick = false
-								
+						$AudioStreamPlayer2.play()
+						$Camera3D/hitdetect.visible = true
 						await get_tree().create_timer(.1).timeout
 						snipe.visible = false
+						$Camera3D/hitdetect.visible = false
 						clicktimer.start()
-				
+					
 
 			else:
 
@@ -120,6 +129,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("shift") and is_on_floor():
 		
 		if canjump == true:
+			deploysmoke.rpc()
 			velocity.y = JUMP_VELOCITY * 2
 			isfloating = true
 			canjump = false
@@ -175,6 +185,7 @@ func daehs():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 @rpc("any_peer")
 func daebs():
@@ -187,6 +198,7 @@ func daebs():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 
 @rpc("any_peer")
@@ -199,6 +211,7 @@ func midaspunchdamage():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 @rpc("any_peer")
 func midasshotdamage():
@@ -210,6 +223,7 @@ func midasshotdamage():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 
 @rpc("any_peer")
@@ -222,6 +236,7 @@ func herarrow():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 @rpc("any_peer")
 func herspear():
@@ -233,6 +248,7 @@ func herspear():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 func die():
 	max_hp = supermaxhp
@@ -246,9 +262,64 @@ func _on_hpchange(hpvalue):
 	pass # Replace with function body.
 
 
+@rpc("authority", "call_local", "reliable")
+func blood():
+	$Armature/Skeleton3D/Cube/Cube.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube002/Cube002.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube018/Cube018.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube019/Cube019.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube020/Cube020.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube021/Cube021.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube022/Cube022.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube017/Cube017.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube016/Cube016.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube015/Cube015.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube013/Cube013.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube014/Cube014.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube002/Cube002.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube003/Cube003.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube008/Cube008.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube006/Cube006.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube007/Cube007.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube005/Cube005.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube009/Cube009.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube010/Cube010.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube011/Cube011.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube012/Cube012.set_surface_override_material(0, bloody)
+	$Armature/Skeleton3D/Cube004/Cube004.set_surface_override_material(0, bloody)
+	await get_tree().create_timer(.1).timeout
+	$Armature/Skeleton3D/Cube/Cube.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube002/Cube002.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube018/Cube018.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube019/Cube019.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube020/Cube020.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube021/Cube021.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube022/Cube022.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube017/Cube017.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube016/Cube016.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube015/Cube015.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube013/Cube013.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube014/Cube014.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube002/Cube002.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube003/Cube003.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube008/Cube008.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube006/Cube006.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube007/Cube007.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube005/Cube005.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube009/Cube009.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube010/Cube010.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube011/Cube011.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube012/Cube012.set_surface_override_material(0, mat)
+	$Armature/Skeleton3D/Cube004/Cube004.set_surface_override_material(0, mat)
 
 
 
+@rpc("call_local")
+func deploysmoke():
+	var smokepartic = smoke.instantiate()
+	smokepartic.global_transform = global_transform
+	smokepartic.emitting = true
+	get_tree().current_scene.add_child(smokepartic)
 
 
 func _on_juimer_timeout():

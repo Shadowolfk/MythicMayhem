@@ -1,9 +1,13 @@
-[gd_scene load_steps=91 format=3 uid="uid://bcwo3a7njkgf2"]
+[gd_scene load_steps=95 format=3 uid="uid://bcwo3a7njkgf2"]
 
 [ext_resource type="Animation" uid="uid://bhrol23n65cs2" path="res://running.res" id="1_7v3bv"]
 [ext_resource type="Script" path="res://heracl.gd" id="1_xfxda"]
 [ext_resource type="PackedScene" uid="uid://eh3elrkgya1w" path="res://dashparticle.tscn" id="2_wmae6"]
+[ext_resource type="Texture2D" uid="uid://c38rb18781v5e" path="res://hitdetect.png" id="3_d1gqs"]
 [ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://red_circle.png" id="3_ecaai"]
+[ext_resource type="Material" uid="uid://b0q3erjg2elrr" path="res://mat.tres" id="5_tw7fv"]
+[ext_resource type="AudioStream" uid="uid://ci6f0g0mr1npa" path="res://Record (online-voice-recorder.com).mp3" id="7_ubo73"]
+[ext_resource type="PackedScene" uid="uid://bc12ctbqn2hgw" path="res://tpartic.tscn" id="8_jtpya"]
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_pqlpq"]
 
@@ -1251,6 +1255,7 @@ _data = {
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 collision_layer = 2
 script = ExtResource("1_xfxda")
+tpartic = ExtResource("8_jtpya")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 1.9957, 0.131085, 0, -0.131085, 1.9957, 0, 4.9505, -0.216233)
@@ -1284,6 +1289,15 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113e-08, 0, -0.
 
 [node name="arrowspawn" type="Node3D" parent="Camera3D"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113e-08, 0, 0.0166132, -1.64733)
+
+[node name="hitdetect" type="TextureRect" parent="Camera3D"]
+visible = false
+offset_left = 550.0
+offset_top = 298.0
+offset_right = 1590.0
+offset_bottom = 1338.0
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("3_d1gqs")
 
 [node name="ClickTimer" type="Timer" parent="."]
 wait_time = 1.5
@@ -1321,6 +1335,7 @@ value = 100.0
 show_percentage = false
 
 [node name="CamCooldownabar" type="ProgressBar" parent="Control"]
+visible = false
 layout_mode = 0
 offset_left = 12.0
 offset_top = 570.0
@@ -1660,6 +1675,7 @@ bone_idx = 5
 [node name="Cube" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube"]
 mesh = SubResource("ArrayMesh_7x4vg")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube001" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.175167, -3.29656e-08, -8.75289e-09, 2.09548e-08, -0.273078, -0.072598, -2.50047e-10, 0.131425, -0.150845, 0.0188094, 1.95415, 0.387071)
@@ -1669,6 +1685,7 @@ bone_idx = 6
 [node name="Cube001" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube001"]
 mesh = SubResource("ArrayMesh_6kunx")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube018" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.11724, -0.099933, -0.176595, 0.116598, -0.126821, 0.0437216, -0.0809108, -0.0379528, 0.318894, 0.572167, 1.92456, -1.04278)
@@ -1679,6 +1696,7 @@ bone_idx = 10
 transform = Transform3D(1, -7.45058e-09, -5.96046e-08, 3.72529e-09, 1, 0, 1.49012e-08, -7.45058e-09, 1, 0, 0, 0)
 mesh = SubResource("ArrayMesh_vsg7h")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube019" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.105712, 0.104828, 0.0894162, -0.0738623, -0.246869, -0.0921891, -0.0242559, 0.294885, -0.108964, 0.752232, 1.47546, -0.739982)
@@ -1688,6 +1706,7 @@ bone_idx = 11
 [node name="Cube019" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube019"]
 mesh = SubResource("ArrayMesh_v2e5c")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube020" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.190407, -0.11948, -0.140824, 0.18468, 0.123185, 0.145191, -2.04079e-07, -0.202266, 0.171611, 0.876982, 1.19114, -0.409872)
@@ -1697,6 +1716,7 @@ bone_idx = 12
 [node name="Cube020" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube020"]
 mesh = SubResource("ArrayMesh_ik1qo")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube021" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.153621, -0.0936464, -1.10799e-07, -0.0250739, 0.137651, -0.155113, -0.0446297, 0.245008, 0.0871462, 0.731328, 1.33523, -0.0314971)
@@ -1706,6 +1726,7 @@ bone_idx = 13
 [node name="Cube021" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube021"]
 mesh = SubResource("ArrayMesh_via3h")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube022" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.403024, 2.01165e-07, 2.5111e-07, -2.36244e-07, -0.197407, 0.351367, 9.08865e-08, -0.351367, -0.197407, 0.575741, 1.54602, 0.360604)
@@ -1715,6 +1736,7 @@ bone_idx = 14
 [node name="Cube022" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube022"]
 mesh = SubResource("ArrayMesh_hpvti")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube017" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.143764, 0.0966487, 0.0825463, 0.108801, -0.133663, 0.0130556, -0.0371681, -0.0174347, 0.357501, -0.278992, 2.14408, -0.49704)
@@ -1724,6 +1746,7 @@ bone_idx = 18
 [node name="Cube017" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube017"]
 mesh = SubResource("ArrayMesh_72wy8")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube015" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.185225, 0.184892, 0.0432222, 0.189878, 0.180362, 0.0421627, -8.65091e-08, -0.0603807, 0.258294, -0.785575, 1.26309, -0.35053)
@@ -1733,6 +1756,7 @@ bone_idx = 19
 [node name="Cube015" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube015"]
 mesh = SubResource("ArrayMesh_wb6gj")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube016" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.111068, -0.202081, -0.027444, -0.0694999, -0.33212, -0.0267713, -0.0072409, 0.0880293, -0.164004, -0.553266, 1.64115, -0.442606)
@@ -1742,6 +1766,7 @@ bone_idx = 20
 [node name="Cube016" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube016"]
 mesh = SubResource("ArrayMesh_tbyqj")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube013" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.403024, -4.17232e-07, -2.97796e-08, -1.77287e-07, -0.190204, 0.355318, -3.07183e-07, -0.355318, -0.190204, -0.541451, 1.54403, 0.39683)
@@ -1751,6 +1776,7 @@ bone_idx = 21
 [node name="Cube013" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube013"]
 mesh = SubResource("ArrayMesh_8l2ah")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube014" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.153622, 0.0936467, 1.20983e-08, -0.0241593, 0.132629, -0.156858, -0.0451317, 0.247762, 0.0839669, -0.697038, 1.34128, 0.000512093)
@@ -1760,6 +1786,7 @@ bone_idx = 22
 [node name="Cube014" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube014"]
 mesh = SubResource("ArrayMesh_7e7pe")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube002" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.421241, -3.72532e-09, -7.23986e-10, 1.86263e-09, 0.537007, 3.41061e-13, 6.44057e-10, -3.83693e-13, 0.473518, 0.00969359, 1.34069, 0.372487)
@@ -1769,6 +1796,7 @@ bone_idx = 23
 [node name="Cube002" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube002"]
 mesh = SubResource("ArrayMesh_58bxb")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube003" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.405968, 2.44472e-08, 1.42087e-10, -2.44472e-08, -0.405968, -3.74456e-12, -1.42094e-10, 3.74456e-12, -0.405968, 0.0142518, 0.825681, 0.361548)
@@ -1778,6 +1806,7 @@ bone_idx = 24
 [node name="Cube003" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube003"]
 mesh = SubResource("ArrayMesh_8suh1")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube008" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.529444, 0.0748882, -0.0230794, -0.078364, 0.505961, -0.155931, 2.04891e-08, 0.157631, 0.511475, -0.510809, -2.47322, -0.438796)
@@ -1787,6 +1816,7 @@ bone_idx = 28
 [node name="Cube008" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube008"]
 mesh = SubResource("ArrayMesh_jb7ne")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube006" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.324382, -0.0458825, 0.0141403, 0.048012, -0.309994, 0.0955366, 2.42435e-08, -0.0965782, -0.313374, -0.481802, -0.887365, 0.163103)
@@ -1796,6 +1826,7 @@ bone_idx = 29
 [node name="Cube006" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube006"]
 mesh = SubResource("ArrayMesh_01on6")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube007" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.243357, 0.104824, -0.00287105, -0.0360195, 0.708217, -0.0193984, -1.57161e-08, 0.0502683, 0.279287, -0.774652, -1.83409, -0.222889)
@@ -1805,6 +1836,7 @@ bone_idx = 30
 [node name="Cube007" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube007"]
 mesh = SubResource("ArrayMesh_l3csw")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube005" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.243357, 0.104824, -0.00287097, -0.0360194, 0.708217, -0.0193982, -5.86733e-08, 0.0502678, 0.279287, -0.401316, -0.538122, 0.189054)
@@ -1814,6 +1846,7 @@ bone_idx = 31
 [node name="Cube005" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube005"]
 mesh = SubResource("ArrayMesh_lb8tu")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube009" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.533481, -0.0420813, -0.00887394, -0.0429602, 0.526575, 0.0855884, -0.00200131, -0.086024, 0.528249, 0.340085, -2.54256, 0.809032)
@@ -1823,6 +1856,7 @@ bone_idx = 35
 [node name="Cube009" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube009"]
 mesh = SubResource("ArrayMesh_1rdgf")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube010" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.245213, -0.0522582, -0.00951489, -0.0197464, 0.661666, 0.106094, -0.000919938, -0.273045, 0.258918, 0.64339, -1.88837, 0.74005)
@@ -1832,6 +1866,7 @@ bone_idx = 36
 [node name="Cube010" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube010"]
 mesh = SubResource("ArrayMesh_yno1b")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube011" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.326856, 0.0257825, 0.00543697, 0.0263209, -0.322624, -0.0524385, 0.00122624, 0.0527053, -0.32365, 0.408939, -0.85494, 0.65015)
@@ -1841,6 +1876,7 @@ bone_idx = 37
 [node name="Cube011" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube011"]
 mesh = SubResource("ArrayMesh_fkgjl")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube012" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(-0.245213, -0.0522581, -0.00951492, -0.0197464, 0.661666, 0.106094, -0.000919959, -0.273045, 0.258918, 0.354435, -0.526655, 0.514566)
@@ -1850,6 +1886,7 @@ bone_idx = 38
 [node name="Cube012" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube012"]
 mesh = SubResource("ArrayMesh_yp47e")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="Cube004" type="BoneAttachment3D" parent="Armature/Skeleton3D"]
 transform = Transform3D(0.421241, 9.31319e-10, -4.84849e-10, -4.06135e-15, 0.425286, 1.27613e-11, 4.31324e-10, -1.14611e-11, 0.473518, 0.00969381, 0.290616, 0.372487)
@@ -1859,12 +1896,19 @@ bone_idx = 39
 [node name="Cube004" type="MeshInstance3D" parent="Armature/Skeleton3D/Cube004"]
 mesh = SubResource("ArrayMesh_f1he7")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("5_tw7fv")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 speed_scale = 2.0
 libraries = {
 "": SubResource("AnimationLibrary_1nfol")
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ubo73")
+
+[node name="partposition" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
 [connection signal="first_time" from="." to="." method="_on_first_time"]
 [connection signal="timeout" from="ClickTimer" to="." method="_on_click_timer_timeout" flags=18]

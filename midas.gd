@@ -37,7 +37,8 @@ var direction = Vector3.ZERO
 var canregen = true
 @onready var regenstar = $reganstart
 var supermaxhp = 150
-
+var midasmat = load("res://midas.tres")
+var midasmatblood = load("res://midasblood.tres")
 var running = false
 
 
@@ -91,17 +92,19 @@ func _physics_process(delta):
 			
 				
 	if Input.is_action_just_pressed("click"):
+		
 		if canclick == true:
 			if coincast.is_colliding():
 					var hit_player = coincast.get_collider()
 					hit_player.midasshotdamage.rpc_id(hit_player.get_multiplayer_authority())
+					$Camera3D/hitdetect.visible = true
 					grapcd -= 2
 					coinshot.visible = true
 					canclick = false
-					
+					$AudioStreamPlayer.play()
 					await get_tree().create_timer(.1).timeout
 					coinshot.visible = false
-					
+					$Camera3D/hitdetect.visible = false
 					await get_tree().create_timer(.25).timeout
 					canclick = true
 			else: 
@@ -198,6 +201,7 @@ func daehs():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 	
 
 @rpc("any_peer")
@@ -211,6 +215,7 @@ func daebs():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 	
 @rpc("any_peer")
 func midaspunchdamage():
@@ -222,6 +227,7 @@ func midaspunchdamage():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 @rpc("any_peer")
 func midasshotdamage():
@@ -235,6 +241,7 @@ func midasshotdamage():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 @rpc("any_peer")
 func herarrow():
@@ -249,6 +256,7 @@ func herarrow():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 @rpc("any_peer")
 func herspear():
@@ -260,6 +268,7 @@ func herspear():
 	hpchange.emit(hp)
 	canregen = false
 	regenstar.start()
+	blood.rpc()
 
 
 func _on_hitdelaytimer_timeout():
@@ -268,6 +277,13 @@ func _on_hitdelaytimer_timeout():
 		var hit_player = ray.get_collider(1)
 		if hit_player != null:
 			hit_player.midaspunchdamage.rpc_id(hit_player.get_multiplayer_authority())
+			$Camera3D/hitdetect.visible = true
+			
+			$AudioStreamPlayer2.play()
+			
+			await get_tree().create_timer(.1).timeout
+
+			$Camera3D/hitdetect.visible = false
 
 
 func find_point():
@@ -292,6 +308,46 @@ func _on_grap_timer_timeout():
 	pass # Replace with function body.
 
 
+@rpc("authority", "call_local", "reliable")
+func blood():
+	$Armature/Skeleton3D/Sphere_001.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_002.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_003.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_004.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_005.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_006.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_007.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_008.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_009.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_010.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_011.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_012.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_013.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_014.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_015.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_016.set_surface_override_material(0, midasmatblood)
+	$Armature/Skeleton3D/Sphere_017.set_surface_override_material(0, midasmatblood)
+	await get_tree().create_timer(.1).timeout
+	$Armature/Skeleton3D/Sphere_001.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_002.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_003.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_004.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_005.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_006.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_007.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_008.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_009.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_010.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_011.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_012.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_013.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_014.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_015.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_016.set_surface_override_material(0, midasmat)
+	$Armature/Skeleton3D/Sphere_017.set_surface_override_material(0, midasmat)
+	
+	pass
+	
 
 func line(pos1: Vector3, pos2: Vector3, color = Color.DARK_KHAKI) -> MeshInstance3D:
 	

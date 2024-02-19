@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://cka6yie4gqbw2"]
+
+[ext_resource type="Texture2D" uid="uid://bnwg32k80st0c" path="res://smoke.png" id="1_1qipo"]
+[ext_resource type="Script" path="res://smoke.gd" id="2_vu0gq"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kihrw"]
+emission_shape = 1
+emission_sphere_radius = 20.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffnp5"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.65098, 0.65098, 0.65098, 0.164706)
+albedo_texture = ExtResource("1_1qipo")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_4p1va"]
+material = SubResource("StandardMaterial3D_ffnp5")
+size = Vector2(10, 10)
+
+[node name="smoke" type="GPUParticles3D"]
+emitting = false
+amount = 300
+lifetime = 3.0
+one_shot = true
+explosiveness = 0.95
+randomness = 1.0
+fixed_fps = 60
+fract_delta = false
+visibility_aabb = AABB(-15, -15, -15, 30, 30, 30)
+process_material = SubResource("ParticleProcessMaterial_kihrw")
+draw_pass_1 = SubResource("QuadMesh_4p1va")
+script = ExtResource("2_vu0gq")

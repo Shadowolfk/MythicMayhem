@@ -20,7 +20,8 @@ var _player_chars
 var char_pressed
 var char_dict = {}
 const hera = preload(\"res://heracl.tscn\")
-
+var text = preload(\"res://namebox.tscn\")
+const spec = preload(\"res://spectator.tscn\")
 
 # Called when the node enters the scene tree for the first time.
 func _unhandled_input(event):
@@ -32,7 +33,8 @@ func _unhandled_input(event):
 func _on_host_button_pressed():
 	MainMenu.hide()
 	charsel.hide()
-	
+	$CanvasLayer/Name.hide()
+	Lobby.client_info[\"char\"] = 69
 	Lobby.player_connected.connect(add_player)
 	Lobby.player_disconnected.connect(remove_player)
 	Lobby.create_game()
@@ -42,6 +44,7 @@ func _on_host_button_pressed():
 func _on_join_button_pressed():
 	charsel.hide()
 	MainMenu.hide()
+	$CanvasLayer/Name.hide()
 
 	Lobby.join_game()
 
@@ -50,24 +53,42 @@ func _on_join_button_pressed():
 
 
 func add_player(peer_id, client_info):
-
+	print(Lobby.players[peer_id][\"playername\"])
+	
 	if Lobby.players[peer_id][\"char\"] == 1:
+		var textbox = text.instantiate()
 		print(\"Mid\")
 		var player = midas.instantiate()
 		player.name = str(peer_id)
 		add_child(player)
+		textbox.text = Lobby.players[peer_id][\"playername\"]
+		player.add_child(textbox)
 
 	if Lobby.players[peer_id][\"char\"] == 2:
+		var textbox = text.instantiate()
 		print(\"dae\")
 		var player = daed.instantiate()
 		player.name = str(peer_id)
 		add_child(player)
+		textbox.text = Lobby.players[peer_id][\"playername\"]
+		player.add_child(textbox)
 	
 	if Lobby.players[peer_id][\"char\"] == 3:
+		var textbox = text.instantiate()
 		print(\"hera\")
 		var player = hera.instantiate()
 		player.name = str(peer_id)
 		add_child(player)
+		textbox.text = Lobby.players[peer_id][\"playername\"]
+		player.add_child(textbox)
+		
+	if Lobby.players[peer_id][\"char\"] == 69:
+		
+		print(\"spec\")
+		var player = spec.instantiate()
+		player.name = str(peer_id)
+		add_child(player)
+
 
 
 
@@ -115,6 +136,10 @@ func _on_address_entry_text_changed(new_text):
 func _on_heracles_pressed():
 	Lobby.client_info[\"char\"] = 3
 	pass # Replace with function body.
+
+
+func _on_name_text_changed(player_name: String) -> void:
+	Lobby.client_info[\"playername\"] = player_name
 "
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mi5lv"]
@@ -263,6 +288,13 @@ text = "Midas"
 layout_mode = 2
 text = "Heracles"
 
+[node name="Name" type="LineEdit" parent="CanvasLayer"]
+offset_left = 91.0
+offset_top = 69.0
+offset_right = 572.0
+offset_bottom = 124.0
+placeholder_text = "Select Name"
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://daed.tscn", "res://player.tscn", "res://heracl.tscn", "res://herarrow.tscn")
 spawn_path = NodePath("..")
@@ -273,4 +305,5 @@ spawn_path = NodePath("..")
 [connection signal="pressed" from="CanvasLayer/Charsel/MarginContainer/VBoxContainer/Daedalus" to="." method="_on_daedalus_pressed"]
 [connection signal="pressed" from="CanvasLayer/Charsel/MarginContainer/VBoxContainer/Midas" to="." method="_on_midas_pressed"]
 [connection signal="pressed" from="CanvasLayer/Charsel/MarginContainer/VBoxContainer/Heracles" to="." method="_on_heracles_pressed"]
+[connection signal="text_changed" from="CanvasLayer/Name" to="." method="_on_name_text_changed"]
 [connection signal="spawned" from="MultiplayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]

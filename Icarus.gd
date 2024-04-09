@@ -1,10 +1,11 @@
 extends CharacterBody3D
 
-
+#icarus
 signal hpchange(hpvalue)
 @onready var player = $"."
 @onready var camera = $Camera3D
 @export var SPEED = 7.7
+
 @export var JUMP_VELOCITY = 15
 var rp = true
 @onready var clicktimer = $ClickTimer
@@ -12,12 +13,12 @@ var rp = true
 @export var gravity = 15
 
 var canclick = true
-var hp = 60
-var max_hp = 60
+var hp = 75
+var max_hp = 75
 
 @onready var hitdelaytimer = $Hitdelaytimer
 @onready var envir = "res://environment.tscn"
-@onready var gray = $Camera3D/camera_cast
+
 var collision_point = null
 var grappling
 var cangrapple = true
@@ -26,10 +27,10 @@ var hookpoint
 @onready var ultlabel = $Control/RichTextLabel
 @onready var righthand = $Armature/Skeleton3D/Cube018/Cube018
 @onready var dashpart = $CPUParticles3D
-@onready var capsprite = $Camera3D/camera_cast/Camsprite
+
 var direction = Vector3.ZERO
 @export var friction = 2
-@onready var view = $Camera3D/Sprite3D
+
 @onready var snipe = $Camera3D/SnipeShot
 var isfloating = false
 @onready var ray = $Camera3D/SnipeCast
@@ -37,12 +38,18 @@ var isfloating = false
 var canjump = true
 var canregen = true
 @onready var regenstar = $reganstart
-var supermaxhp = 60
+var supermaxhp = 75
 var mat = load("res://mat.tres")
 var bloody = load("res://blood.tres")
-@export var smoke : PackedScene
-
-
+var fast_feathers = false
+var wingmeter = 100
+var feather = preload("res://feather.tscn")
+var canshoot = true
+var canrebuildfeathersfromwax = true
+var feathersfast = false
+var cansprint = true
+var isbuffed = false
+var damagecounter = 100
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -55,7 +62,7 @@ func _ready():
 	ultlabel.show()
 	$Control/ProgressBar.show()
 	camera.current = true
-	
+	$Control/ProgressBar2.show()
 
 func _unhandled_input(event):
 	if not is_multiplayer_authority(): return
@@ -70,44 +77,81 @@ func _unhandled_input(event):
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	# Add the gravity.
-	if not is_on_floor():
-		
-		
-		if isfloating == true:
-			var vel_y = velocity.y - gravity * delta
-			velocity.y = vel_y
-			velocity = velocity.lerp(direction * SPEED, friction * delta)
-		else:
-			var vel_y= velocity.y - gravity * delta * 5
-			velocity.y = vel_y
-			velocity = velocity.lerp(direction * SPEED, friction * delta)
 
+
+	if canrebuildfeathersfromwax == true:
+		if wingmeter >= 100:
+			wingmeter = 100
+			
+		elif wingmeter < 0:
+			wingmeter = 0
+		else:
+			wingmeter += .33
+		
+		
+	$Control/ProgressBar2.value = wingmeter
+	
+	if not is_on_floor():
+	
+		var vel_y= velocity.y - gravity * delta * 5
+		velocity.y = vel_y
+		velocity = velocity.lerp(direction * SPEED, friction * delta)
+
+	if is_on_floor():
+		canjump = true
 			
 	# Handle Jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-
+		
 		velocity.y = JUMP_VELOCITY
 		
-	if Input.is_action_just_pressed("click"):
-		shootdaed.rpc()
-
-	
-	if Input.is_action_just_pressed("shift") and is_on_floor():
-		
+	if Input.is_action_just_pressed("ui_accept") and (is_on_floor() == false):
 		if canjump == true:
-			deploysmoke.rpc()
-			velocity.y = JUMP_VELOCITY * 2
-			isfloating = true
-			canjump = false
-			jumptimer.start()
+			if wingmeter >= 33:
+				wingmeter -= 33
+				velocity.y = JUMP_VELOCITY 
+				canjump = false
+	#shoot
+	if Input.get_action_strength("click"):
+		canrebuildfeathersfromwax = false
+		if canshoot == true:
+			if wingmeter > 5:
+				canshoot = false
+				wingmeter -= 5
+				shoot_feather.rpc()
+				await get_tree().create_timer(.1).timeout
+				canshoot = true
+		pass
+	else: 
+		canrebuildfeathersfromwax = true
 
-		return
-		
-	if Input.is_action_just_pressed("shift") and not is_on_floor():
-		if isfloating == true:
-			isfloating = false
+	if Input.get_action_strength("shift") and wingmeter > 0 and cansprint == true:
+		canrebuildfeathersfromwax = false
+		wingmeter -= .33
+		SPEED = 12.6
+		feathersfast = true
 
+		camera.fov = lerp(camera.fov, float(90), delta * 8)
+		gravity = 0
+	else:
+		gravity = 15
+		SPEED = 7.7
+
+		camera.fov = lerp(camera.fov, float(75), delta * 8)
 	
+	if wingmeter == 0:
+		cansprint = false
+		$Timer.start()
+
+	if Input.get_action_strength("grap") and damagecounter == 100:
+		damagecounter = 0
+		wingmeter = 100
+		isbuffed = true
+		$bufftimer.start()
+		$Control/CamCooldownabar.value = damagecounter
+	
+	if isbuffed == true:
+		wingmeter = 100
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var h_rot = global_transform.basis.get_euler().y
@@ -215,7 +259,7 @@ func herspear():
 	canregen = false
 	regenstar.start()
 	blood.rpc()
-	
+
 @rpc("any_peer")
 func icarushot():
 	hp -= 10
@@ -228,10 +272,12 @@ func icarushot():
 	regenstar.start()
 	blood.rpc()
 
+
 func die():
 	max_hp = supermaxhp
 	hp = max_hp
 	position = Vector3.ZERO
+	wingmeter = 100
 	$Control/ProgressBar.value = hp
 
 
@@ -292,15 +338,10 @@ func blood():
 
 
 
-@rpc("call_local")
-func deploysmoke():
-	var smokepartic = smoke.instantiate()
-	smokepartic.global_transform = global_transform
-	smokepartic.emitting = true
-	get_tree().current_scene.add_child(smokepartic)
 
 
-func _on_juimer_timeout():
+
+func _on_shift_timeout():
 
 	canjump = true
 	pass # Replace with function body.
@@ -332,40 +373,48 @@ func _on_reganstart_timeout():
 	pass # Replace with function body.
 	
 @rpc("call_local")
-func shootdaed():
-		if canclick == true:
-			if ray.is_colliding():
-				var shape_index = ray.get_collider_shape()
-				var collision_shape_name = ray.get_collider().shape_owner_get_owner(shape_index).name
-				var hit_player = ray.get_collider()
-				match collision_shape_name:
-					"body":
-						hit_player.daebs.rpc_id(hit_player.get_multiplayer_authority())
-						$Camera3D/hitdetect.visible = true
-						$AudioStreamPlayer.play()
-						snipe.visible = true
-						canclick = false
-								
-						await get_tree().create_timer(.1).timeout
-						snipe.visible = false
-						$Camera3D/hitdetect.visible = false
-						clicktimer.start()
-					"head":
-						hit_player.daehs.rpc_id(hit_player.get_multiplayer_authority())
+func shoot_feather():
+	var accuracy_x = 0.25
+	var accuracy_y = 0.25
+	var inaccuracy_x : float = randf_range(-accuracy_x / 2.0, accuracy_x / 2.0)
+	var inaccuracy_y : float = randf_range(-accuracy_y / 2.0, accuracy_y / 2.0)
+		# Get direction vector
+	
 
-						snipe.visible = true
-						canclick = false
-						$AudioStreamPlayer2.play()
-						$Camera3D/hitdetect.visible = true
-						await get_tree().create_timer(.1).timeout
-						snipe.visible = false
-						$Camera3D/hitdetect.visible = false
-						clicktimer.start()
-						
-			else:
-				snipe.visible = true
-				await get_tree().create_timer(.1).timeout
-				snipe.visible = false
-				canclick = false
-				clicktimer.start()
+		# Apply inaccuracy for X axis
+	var direction : Vector3 = -$Camera3D/SnipeCast.global_transform.basis.z.normalized()
+	direction = direction.rotated(Vector3.UP, inaccuracy_x)
+		# Apply inaccuracy for Y axis
+	direction = direction.rotated(Vector3.RIGHT, inaccuracy_y)
+		# Spawn bullet
+	var bullet = feather.instantiate()
 
+	bullet.set_linear_velocity(direction * 50)
+	get_tree().get_root().add_child(bullet)
+	bullet.ownerplayer = self
+	bullet.global_transform = $Camera3D/featherspawn.global_transform
+	pass
+
+func notify_player1():
+	$AudioStreamPlayer.play()
+	$Camera3D/hitdetect.visible = true
+	await get_tree().create_timer(.1).timeout
+	$Camera3D/hitdetect.visible = false
+	if isbuffed == false:
+		if not damagecounter == 100:
+			damagecounter += 10
+			if damagecounter > 100:
+				damagecounter = 100
+			$Control/CamCooldownabar.value = damagecounter
+	else:
+		return
+
+
+func _on_timer_timeout():
+	cansprint = true
+	pass # Replace with function body.
+
+
+func _on_bufftimer_timeout():
+	isbuffed = false
+	pass # Replace with function body.

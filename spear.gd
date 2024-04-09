@@ -30,8 +30,11 @@ func _physics_process(delta):
 func _on_spearea_body_entered(body):
 	if moving == true:
 		if visible:
-			body.herspear.rpc_id(body.get_multiplayer_authority())
-			ownerplayer.notify_player1()
+			if body == ownerplayer:
+				return
+			else:
+				body.herspear.rpc_id(body.get_multiplayer_authority())
+				ownerplayer.notify_player1()
 	pass # Replace with function body.
 
 func _on_spearea_2_body_entered(body):

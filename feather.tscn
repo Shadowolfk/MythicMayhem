@@ -1,0 +1,68 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1blkq5aped4b"]
+
+[ext_resource type="Script" path="res://feather.gd" id="1_2t8ya"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_r3ipk"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vuded"]
+height = 1.5
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_puq4b"]
+height = 0.2
+radius = 0.75
+
+[node name="RigidBody3D" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_2t8ya")
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(0.0631111, 0, 0, 0, 0.0526999, 0, 0, 0, 1.47552, 0, 0, 0)
+mesh = SubResource("BoxMesh_r3ipk")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(0.267241, -5.80387e-05, -0.278993, -0.00091367, 0.0799973, -0.00464631, 0.136313, 0.000649987, 0.546935, 0.0495722, 0, 0.396579)
+mesh = SubResource("BoxMesh_r3ipk")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(0.267241, -5.80387e-05, -0.278993, -0.00091367, 0.0799973, -0.00464631, 0.136313, 0.000649987, 0.546935, -0.0220323, 0, -0.0716046)
+mesh = SubResource("BoxMesh_r3ipk")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(0.267241, -5.80387e-05, -0.278993, -0.00091367, 0.0799973, -0.00464631, 0.136313, 0.000649987, 0.546935, 0.00550771, 0, 0.181765)
+mesh = SubResource("BoxMesh_r3ipk")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_vuded")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_mask = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_vuded")
+
+[node name="Area3D2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.60388)
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.437532)
+shape = SubResource("CylinderShape3D_puq4b")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="Area3D2" to="." method="_on_area_3d_2_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -66,14 +66,15 @@ func _unhandled_input(event):
 		camera.rotate_x(-event.relative.y * .005)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
-func _process(delta):
-	grapcd = max(0, grapcd - delta)
-	$Control/GrapCooldownabar.value = grapcd
 
 
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	# Add the gravity.
+	
+	grapcd = max(0, grapcd - delta)
+	$Control/GrapCooldownabar.value = grapcd
+	
 	if not is_on_floor():
 		velocity.y -= gravity * delta * 5
 		velocity = velocity.lerp(direction * SPEED, friction * delta)
@@ -92,29 +93,7 @@ func _physics_process(delta):
 			
 				
 	if Input.is_action_just_pressed("click"):
-		
-		if canclick == true:
-			if coincast.is_colliding():
-					var hit_player = coincast.get_collider()
-					hit_player.midasshotdamage.rpc_id(hit_player.get_multiplayer_authority())
-					$Camera3D/hitdetect.visible = true
-					grapcd -= 2
-					coinshot.visible = true
-					canclick = false
-					$AudioStreamPlayer.play()
-					await get_tree().create_timer(.1).timeout
-					coinshot.visible = false
-					$Camera3D/hitdetect.visible = false
-					await get_tree().create_timer(.25).timeout
-					canclick = true
-			else: 
-			
-				coinshot.visible = true
-				await get_tree().create_timer(.1).timeout
-				coinshot.visible = false
-		
-		
-		pass
+		midshoot.rpc()
 
 	if Input.get_action_strength("grap"):
 		if grapcd <= 0:
@@ -126,7 +105,7 @@ func _physics_process(delta):
 					
 				if grappling == true:
 					grappart.visible = true
-					line(righthand.global_position, collision_point)
+					line.rpc(righthand.global_position, collision_point)
 					var dir = camera.global_position.direction_to(collision_point)
 					velocity = dir * 17
 
@@ -269,6 +248,18 @@ func herspear():
 	canregen = false
 	regenstar.start()
 	blood.rpc()
+	
+@rpc("any_peer")
+func icarushot():
+	hp -= 10
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
+	blood.rpc()
 
 
 func _on_hitdelaytimer_timeout():
@@ -348,7 +339,7 @@ func blood():
 	
 	pass
 	
-
+@rpc("call_local")
 func line(pos1: Vector3, pos2: Vector3, color = Color.DARK_KHAKI) -> MeshInstance3D:
 	
 	
@@ -421,3 +412,26 @@ func _on_dashtimer_timeout():
 		dashes +=1
 		
 	pass # Replace with function body.
+
+@rpc("call_local")
+func midshoot():
+			
+		if canclick == true:
+			if coincast.is_colliding():
+					var hit_player = coincast.get_collider()
+					hit_player.midasshotdamage.rpc_id(hit_player.get_multiplayer_authority())
+					$Camera3D/hitdetect.visible = true
+					grapcd -= 2
+					coinshot.visible = true
+					canclick = false
+					$AudioStreamPlayer.play()
+					await get_tree().create_timer(.1).timeout
+					coinshot.visible = false
+					$Camera3D/hitdetect.visible = false
+					await get_tree().create_timer(.25).timeout
+					canclick = true
+			else: 
+			
+				coinshot.visible = true
+				await get_tree().create_timer(.1).timeout
+				coinshot.visible = false

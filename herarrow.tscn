@@ -61,6 +61,7 @@ shape = SubResource("CylinderShape3D_rq0oa")
 wait_time = 15.0
 
 [node name="Area3D2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0025242, -2.98023e-08, -0.000370622)
 collision_layer = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2"]

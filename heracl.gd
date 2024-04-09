@@ -162,7 +162,7 @@ func _on_click_timer_timeout():
 @rpc("any_peer")
 func daehs():
 	hp -= 80
-	max_hp -= 40
+	max_hp -= 80
 	print(hp)
 	$Control/ProgressBar.value = hp
 	if hp <= 0:
@@ -227,6 +227,18 @@ func herarrow():
 @rpc("any_peer")
 func herspear():
 	hp -= 50
+	print(hp)
+	$Control/ProgressBar.value = hp
+	if hp <= 0:
+		die()
+	hpchange.emit(hp)
+	canregen = false
+	regenstar.start()
+	blood.rpc()
+	
+@rpc("any_peer")
+func icarushot():
+	hp -= 10
 	print(hp)
 	$Control/ProgressBar.value = hp
 	if hp <= 0:
@@ -385,6 +397,7 @@ func notify_player1():
 			return
 		
 func notify_player2():
+
 	$AudioStreamPlayer.play()
 	$Camera3D/hitdetect.visible = true
 	await get_tree().create_timer(.1).timeout
@@ -395,5 +408,5 @@ func notify_player2():
 			damagecounter = 75
 		$Control/CamCooldownabar.value = damagecounter
 	else:
-			
+				
 			return

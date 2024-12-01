@@ -11,8 +11,8 @@ var rp = true
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 @export var gravity = 15
 var canclick = true
-var hp = 150
-var max_hp = 150
+var hp = 120
+var max_hp = 120
 @onready var ray = $Camera3D/ShapeCast3D
 var dashes = 2
 @onready var hitdelaytimer = $Hitdelaytimer
@@ -36,10 +36,14 @@ var direction = Vector3.ZERO
 @onready var textlabel = $Control/RichTextLabel
 var canregen = true
 @onready var regenstar = $reganstart
-var supermaxhp = 150
+var supermaxhp = 120
 var midasmat = load("res://midas.tres")
 var midasmatblood = load("res://midasblood.tres")
 var running = false
+
+
+
+
 
 
 func _enter_tree():
@@ -93,7 +97,7 @@ func _physics_process(delta):
 			
 				
 	if Input.is_action_just_pressed("click"):
-		midshoot.rpc()
+		midshoot()
 
 	if Input.get_action_strength("grap"):
 		if grapcd <= 0:
@@ -210,7 +214,7 @@ func midaspunchdamage():
 
 @rpc("any_peer")
 func midasshotdamage():
-	hp -= 10
+	hp -= 5
 	
 	print(hp)
 	
@@ -269,7 +273,7 @@ func _on_hitdelaytimer_timeout():
 		if hit_player != null:
 			hit_player.midaspunchdamage.rpc_id(hit_player.get_multiplayer_authority())
 			$Camera3D/hitdetect.visible = true
-			
+			$Camera3D.apply_shake()
 			$AudioStreamPlayer2.play()
 			
 			await get_tree().create_timer(.1).timeout
@@ -389,7 +393,7 @@ func _on_reganstart_timeout():
 func _on_hpregentimer_timeout():
 	if canregen == true:
 		if not hp == max_hp:
-			hp += 50
+			hp += 40
 			$Control/ProgressBar.value = hp
 			print(hp)
 		else:
@@ -413,7 +417,6 @@ func _on_dashtimer_timeout():
 		
 	pass # Replace with function body.
 
-@rpc("call_local")
 func midshoot():
 			
 		if canclick == true:
@@ -422,16 +425,19 @@ func midshoot():
 					hit_player.midasshotdamage.rpc_id(hit_player.get_multiplayer_authority())
 					$Camera3D/hitdetect.visible = true
 					grapcd -= 2
-					coinshot.visible = true
+					
 					canclick = false
 					$AudioStreamPlayer.play()
+					shooter.rpc()
 					await get_tree().create_timer(.1).timeout
-					coinshot.visible = false
 					$Camera3D/hitdetect.visible = false
 					await get_tree().create_timer(.25).timeout
 					canclick = true
 			else: 
-			
-				coinshot.visible = true
-				await get_tree().create_timer(.1).timeout
-				coinshot.visible = false
+				shooter.rpc()
+	
+@rpc("call_local")
+func shooter():
+	coinshot.visible = true
+	await get_tree().create_timer(.1).timeout
+	coinshot.visible = false

@@ -1,6 +1,7 @@
-[gd_scene load_steps=63 format=3 uid="uid://bt0fghoxxmtir"]
+[gd_scene load_steps=64 format=3 uid="uid://bt0fghoxxmtir"]
 
 [ext_resource type="Script" path="res://midas.gd" id="2_j4acd"]
+[ext_resource type="Script" path="res://CameraShaker.gd" id="2_pxwc1"]
 [ext_resource type="Texture2D" uid="uid://bwhh5ssmo3gfv" path="res://red_circle.png" id="3_dxgs6"]
 [ext_resource type="Texture2D" uid="uid://c38rb18781v5e" path="res://hitdetect.png" id="3_mctrk"]
 [ext_resource type="PackedScene" uid="uid://eh3elrkgya1w" path="res://dashparticle.tscn" id="4_khrw0"]
@@ -21,8 +22,8 @@ bottom_radius = 0.01
 height = 20.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_bj6kq"]
-height = 1.5
-radius = 1.0
+height = 4.0
+radius = 3.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_vhgsf"]
 properties/0/path = NodePath(".:position")
@@ -1958,6 +1959,7 @@ shape = SubResource("CapsuleShape3D_i3ino")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1.66667, 0, 0, 0, 1.66308, 0.109237, 0, -0.109237, 1.66308, 0, 4.14828, -2.21049)
+script = ExtResource("2_pxwc1")
 
 [node name="TextureRect" type="TextureRect" parent="Camera3D"]
 anchors_preset = 8
@@ -1980,7 +1982,7 @@ target_position = Vector3(0, 0, -100)
 
 [node name="coincast" type="RayCast3D" parent="Camera3D"]
 visible = false
-target_position = Vector3(0, 0, -20)
+target_position = Vector3(0, 0, -100)
 collision_mask = 2
 
 [node name="coinshot" type="MeshInstance3D" parent="Camera3D"]
@@ -2042,9 +2044,9 @@ offset_right = 1155.0
 offset_bottom = 27.0
 theme_override_styles/background = SubResource("StyleBoxFlat_8562d")
 theme_override_styles/fill = SubResource("StyleBoxFlat_vlt2n")
-max_value = 150.0
+max_value = 120.0
 step = 1.0
-value = 150.0
+value = 120.0
 show_percentage = false
 
 [node name="GrapCooldownabar" type="ProgressBar" parent="Control"]

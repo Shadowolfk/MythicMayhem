@@ -4,6 +4,7 @@ extends CharacterBody3D
 signal hpchange(hpvalue)
 @onready var player = $"."
 @onready var camera = $Camera3D
+@onready var cam2 = $SubViewport/daedcamholder/daedcam
 @export var SPEED = 7.7
 @export var JUMP_VELOCITY = 15
 var rp = true
@@ -64,6 +65,10 @@ func _unhandled_input(event):
 		rotate_y(-event.relative.x * .005)
 		camera.rotate_x(-event.relative.y * .005)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+		cam2.rotate_x(-event.relative.y * .005)
+		cam2.rotation.x = clamp(cam2.rotation.x, -PI/2, PI/2)
+		$SubViewport/daedcamholder.rotate_y(-event.relative.x * .005)
+
 
 
 
@@ -89,7 +94,7 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 		
 	if Input.is_action_just_pressed("click"):
-		shootdaed.rpc()
+		shootdaed()
 
 	
 	if Input.is_action_just_pressed("shift") and is_on_floor():
@@ -181,7 +186,7 @@ func midaspunchdamage():
 
 @rpc("any_peer")
 func midasshotdamage():
-	hp -= 10
+	hp -= 5
 	print(hp)
 	$Control/ProgressBar.value = hp
 	if hp <= 0:
@@ -331,7 +336,7 @@ func _on_reganstart_timeout():
 	canregen = true
 	pass # Replace with function body.
 	
-@rpc("call_local")
+
 func shootdaed():
 		if canclick == true:
 			if ray.is_colliding():
@@ -343,29 +348,30 @@ func shootdaed():
 						hit_player.daebs.rpc_id(hit_player.get_multiplayer_authority())
 						$Camera3D/hitdetect.visible = true
 						$AudioStreamPlayer.play()
-						snipe.visible = true
+						shotfired.rpc()
 						canclick = false
-								
 						await get_tree().create_timer(.1).timeout
-						snipe.visible = false
 						$Camera3D/hitdetect.visible = false
 						clicktimer.start()
 					"head":
 						hit_player.daehs.rpc_id(hit_player.get_multiplayer_authority())
 
-						snipe.visible = true
+						
 						canclick = false
 						$AudioStreamPlayer2.play()
 						$Camera3D/hitdetect.visible = true
+						shotfired.rpc()
 						await get_tree().create_timer(.1).timeout
-						snipe.visible = false
 						$Camera3D/hitdetect.visible = false
 						clicktimer.start()
 						
 			else:
-				snipe.visible = true
-				await get_tree().create_timer(.1).timeout
-				snipe.visible = false
+				shotfired.rpc()
 				canclick = false
 				clicktimer.start()
 
+@rpc("call_local")
+func shotfired():
+	snipe.visible = true
+	await get_tree().create_timer(.1).timeout
+	snipe.visible = false

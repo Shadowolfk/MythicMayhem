@@ -30,11 +30,13 @@ signal first_time
 var direction = Vector3.ZERO
 @export var friction = 5
 var firsttime = false
+var firsttime2 = false
 @onready var snipe = $Camera3D/SnipeShot
 
 @onready var ray = $Camera3D/SnipeCast
 @onready var jumptimer = $Juimer
 var bullet = preload("res://herarrow.tscn")
+var veiwarrow = preload("res://arrowview.tscn")
 var canregen = true
 @onready var regenstar = $reganstart
 var supermaxhp = 100
@@ -42,9 +44,13 @@ var supermaxhp = 100
 var shots = 2
 var spear = true
 var spearr = preload("res://spear.tscn")
+var spearview = preload("res://spearview.tscn")
 var s = spearr.instantiate()
+var sv = spearview.instantiate()
 var silly = false
+var silly2 = false
 signal sperible
+signal first_time_view
 var candash = true
 var damagecounter = 75
 var mat = load("res://mat.tres")
@@ -90,20 +96,23 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 	if Input.is_action_just_pressed("click"):
 		if shots > 0:
-			shoot_arrow.rpc()
+			shoot_arrow()
+			shoot_arrow_view.rpc()
 			shots -= 1
 			if shots == 0:
 				$shottimer.start()
 		pass
 	if Input.is_action_just_pressed("altclick"):
 		if spear == true:
-			shoot_spear.rpc()
+			shoot_spear()
+			shoot_spear_view.rpc()
 			spear = false
 		else:
 			var distance = abs($".".global_position - s.global_position)
 			
 			if distance < Vector3(2,2,2):
 				s.hide()
+				hidespear.rpc()
 				spear = true
 				silly = false
 			pass
@@ -200,7 +209,7 @@ func midaspunchdamage():
 
 @rpc("any_peer")
 func midasshotdamage():
-	hp -= 10
+	hp -= 5
 	print(hp)
 	$Control/ProgressBar.value = hp
 	if hp <= 0:
@@ -263,7 +272,7 @@ func _on_hpchange(hpvalue):
 	pass # Replace with function body.
 
 
-@rpc("call_local")
+
 func shoot_spear():
 	silly = true
 	s.global_transform = $Camera3D/Speawn.global_transform
@@ -275,6 +284,18 @@ func shoot_spear():
 	s.show()
 
 @rpc("call_local")
+func shoot_spear_view():
+	silly2 = true
+	sv.global_transform = $Camera3D/Speawn.global_transform
+	
+	if firsttime2 == false:
+		get_tree().get_root().add_child(sv)
+		emit_signal("first_time_view")
+		sv.ownerplayer = self
+	sv.show()
+
+
+
 func shoot_arrow():
 	
 	var a = bullet.instantiate()
@@ -282,7 +303,14 @@ func shoot_arrow():
 	
 	get_tree().get_root().add_child(a)
 	a.ownerplayer = self
-	pass
+
+@rpc("call_local")
+func shoot_arrow_view():
+	var a = veiwarrow.instantiate()
+	a.global_transform = arrowspawn.global_transform
+	
+	get_tree().get_root().add_child(a)
+	a.ownerplayer = self
 		
 		
 @rpc("authority", "call_local", "reliable")
@@ -334,6 +362,10 @@ func blood():
 	$Armature/Skeleton3D/Cube011/Cube011.set_surface_override_material(0, mat)
 	$Armature/Skeleton3D/Cube012/Cube012.set_surface_override_material(0, mat)
 	$Armature/Skeleton3D/Cube004/Cube004.set_surface_override_material(0, mat)
+
+@rpc("call_local")
+func hidespear():
+	sv.hide()
 
 
 @rpc("call_local")
@@ -410,3 +442,8 @@ func notify_player2():
 	else:
 				
 			return
+
+
+func _on_first_time_view():
+	firsttime2 = true
+	pass # Replace with function body.

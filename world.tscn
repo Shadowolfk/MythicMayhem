@@ -325,7 +325,7 @@ offset_bottom = 124.0
 placeholder_text = "Select Name"
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://daed.tscn", "res://player.tscn", "res://heracl.tscn", "res://herarrow.tscn", "res://namebox.tscn", "res://Icarus.tscn")
+_spawnable_scenes = PackedStringArray("res://daed.tscn", "res://player.tscn", "res://heracl.tscn", "res://herarrow.tscn", "res://namebox.tscn", "res://Icarus.tscn", "res://spear.tscn", "res://feather.tscn", "res://herarrow.tscn")
 spawn_path = NodePath("..")
 
 [connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]

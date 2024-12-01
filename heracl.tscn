@@ -1911,6 +1911,7 @@ stream = ExtResource("7_ubo73")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
 [connection signal="first_time" from="." to="." method="_on_first_time"]
+[connection signal="first_time_view" from="." to="." method="_on_first_time_view"]
 [connection signal="timeout" from="ClickTimer" to="." method="_on_click_timer_timeout" flags=18]
 [connection signal="timeout" from="Juimer" to="." method="_on_juimer_timeout" flags=18]
 [connection signal="timeout" from="reganstart" to="." method="_on_reganstart_timeout" flags=18]

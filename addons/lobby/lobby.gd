@@ -103,7 +103,9 @@ func network_config(start: bool) -> void:
 		return
 
 	if !_upnp.get_gateway() or !_upnp.get_gateway().is_valid_gateway():
+		
 		printerr("Unknown error while setting up UPNP.")
+		
 		call_thread_safe("_network_setup_completed", 28)
 		return
 

@@ -44,6 +44,7 @@ var bloody = load("res://blood.tres")
 var fast_feathers = false
 var wingmeter = 100
 var feather = preload("res://feather.tscn")
+var featherview = preload("res://featherview.tscn")
 var canshoot = true
 var canrebuildfeathersfromwax = true
 var feathersfast = false
@@ -118,7 +119,7 @@ func _physics_process(delta):
 			if wingmeter > 5:
 				canshoot = false
 				wingmeter -= 5
-				shoot_feather.rpc()
+				shoot_feather_controller()
 				await get_tree().create_timer(.1).timeout
 				canshoot = true
 		pass
@@ -128,7 +129,7 @@ func _physics_process(delta):
 	if Input.get_action_strength("shift") and wingmeter > 0 and cansprint == true:
 		canrebuildfeathersfromwax = false
 		wingmeter -= .33
-		SPEED = 12.6
+		SPEED = 10.5
 		feathersfast = true
 
 		camera.fov = lerp(camera.fov, float(90), delta * 8)
@@ -225,7 +226,7 @@ func midaspunchdamage():
 
 @rpc("any_peer")
 func midasshotdamage():
-	hp -= 10
+	hp -= 5
 	print(hp)
 	$Control/ProgressBar.value = hp
 	if hp <= 0:
@@ -372,8 +373,8 @@ func _on_reganstart_timeout():
 	canregen = true
 	pass # Replace with function body.
 	
-@rpc("call_local")
-func shoot_feather():
+
+func shoot_feather_controller():
 	var accuracy_x = 0.25
 	var accuracy_y = 0.25
 	var inaccuracy_x : float = randf_range(-accuracy_x / 2.0, accuracy_x / 2.0)
@@ -386,14 +387,30 @@ func shoot_feather():
 	direction = direction.rotated(Vector3.UP, inaccuracy_x)
 		# Apply inaccuracy for Y axis
 	direction = direction.rotated(Vector3.RIGHT, inaccuracy_y)
-		# Spawn bullet
-	var bullet = feather.instantiate()
+	shootfeather(direction)
+	shootfeatherview.rpc(direction)
+	pass
 
-	bullet.set_linear_velocity(direction * 50)
-	get_tree().get_root().add_child(bullet)
+
+func shootfeather(dir):
+	var bullet = feather.instantiate()
+	bullet.set_linear_velocity(dir * 50)
+	get_parent().add_child(bullet, true)
 	bullet.ownerplayer = self
 	bullet.global_transform = $Camera3D/featherspawn.global_transform
 	pass
+
+@rpc("call_local")
+func shootfeatherview(dir):
+	var bullet = featherview.instantiate()
+
+	bullet.set_linear_velocity(dir * 50)
+	get_parent().add_child(bullet, true)
+	bullet.ownerplayer = self
+	bullet.global_transform = $Camera3D/featherspawn.global_transform
+	pass
+
+
 
 func notify_player1():
 	$AudioStreamPlayer.play()

@@ -1907,7 +1907,9 @@ size = Vector2i(2000, 1001)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
-[node name="daedcam" type="Camera3D" parent="SubViewport"]
+[node name="daedcamholder" type="Node3D" parent="SubViewport"]
+
+[node name="daedcam" type="Camera3D" parent="SubViewport/daedcamholder"]
 
 [node name="body" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 2.43797, 0.177199)

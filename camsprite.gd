@@ -3,7 +3,7 @@ extends Node3D
 @onready var raycast = get_parent()
 @onready var raycastowner = get_parent().get_owner()
 @onready var cam = preload("res://camera.tscn")
-@onready var daecam = $"../../../SubViewport/daedcam"
+@onready var daecam = $"../../../SubViewport/daedcamholder"
 var oncam = false
 @onready var view = $"../../Sprite3D"
 var canusecam = true
@@ -33,21 +33,23 @@ func _input(event):
 					hide()
 					thereisacam = true
 					daecam.global_transform = c.global_transform
-					daecam.rotate_y(160)
+					#daecam.rotate_y(160)
 					canusecam = false
 					camtimer.start()
 					return
 				else:
 					c.global_transform = global_transform
 					daecam.global_transform = c.global_transform
-					daecam.rotate_y(160)
+					#daecam.rotate_y(160)
 					hide()
 					canusecam = false
 					camtimer.start()
 	else :
 		if Input.is_action_just_pressed("altclick"):
+			
 			if oncam == false:
 				view.visible = true
+				
 				oncam = true
 			else:
 				view.visible = false

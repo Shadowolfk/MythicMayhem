@@ -18,15 +18,6 @@ func _physics_process(delta):
 
 
 
-func _on_area_3d_body_entered(body):
-	if body == ownerplayer:
-		return
-	else:
-		body.herarrow.rpc_id(body.get_multiplayer_authority())
-		ownerplayer.notify_player2()
-		queue_free()
-	pass # Replace with function body.
-
 
 func _on_area_3d_2_body_entered(body):
 	queue_free()
